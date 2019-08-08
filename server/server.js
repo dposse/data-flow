@@ -6,22 +6,24 @@ const PORT = 5000;
 const WALL_SIZE = 10;
 
 io.on('connection', (socket) => {
+  let endStream;
+  
   console.log('user connected');
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
 
   //listen for events from client
-  socket.on('testclick', (message) => {
-    console.log('got it: ', message);
-  });
-
-  socket.on('gamestart', () => {
+  socket.on('stream-start', () => {
     //send data stream to client
-    setInterval(() => {
+    endStream = setInterval(() => {
       socket.emit('stuff', tileArray(WALL_SIZE));
     }, 100);
-  })
+  });
+
+  socket.on('stream-end', () => {
+    clearInterval(endStream);
+  });
   
   
 });

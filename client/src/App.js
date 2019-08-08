@@ -12,15 +12,21 @@ socket.on('stuff', (message) => {
 });
 
 const App = () => {
-  const emitClick = () => {
+  const startStream = () => {
     console.log('sending test click to server');
-    socket.emit('gamestart');
-  }
+    socket.emit('stream-start');
+  };
+
+  const endStream = () => {
+    console.log('sending end stream to server');
+    socket.emit('stream-end');
+  };
 
   return (
     <div className="App">
       <header className="App-header">
-        <button onClick={emitClick}>emit stuff</button>
+        <button onClick={startStream}>start stream</button>
+        <button onClick={endStream}>end stream</button>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
