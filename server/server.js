@@ -24,8 +24,6 @@ io.on('connection', (socket) => {
   socket.on('stream-end', () => {
     clearInterval(endStream);
   });
-  
-  
 });
 
 http.listen(PORT, () => {

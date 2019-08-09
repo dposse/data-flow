@@ -13,7 +13,7 @@ socket.on('stuff', (message) => {
 
 const App = () => {
   const startStream = () => {
-    console.log('sending test click to server');
+    console.log('sending start stream to server');
     socket.emit('stream-start');
   };
 
