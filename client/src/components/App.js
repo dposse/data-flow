@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment } from 'react';
+import Board from './Board';
 import socket from '../socket/socket';
 
-
-
-socket.on('stuff', (message) => {
-  console.log(`got stuff: `, message);
-});
+//sockets should be handled in relevant components
+// socket.on('stuff', (message) => {
+//   console.log(`got stuff: `, message);
+// });
 
 const App = () => {
   const startStream = () => {
@@ -19,12 +19,11 @@ const App = () => {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <button onClick={startStream}>start stream</button>
-        <button onClick={endStream}>end stream</button>
-      </header>
-    </div>
+    <Fragment>
+      <Board />
+      <button onClick={startStream}>start stream</button>
+      <button onClick={endStream}>end stream</button>
+    </Fragment>
   );
 }
 
