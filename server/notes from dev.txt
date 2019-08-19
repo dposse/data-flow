@@ -1,0 +1,10 @@
+abstract it out more
+
+interfaces - like api
+  control interface for player
+    moveLeft, moveRight
+    needs to 'see' board to train
+
+seeded random numbers for walls
+  training sets and validation sets
+
