@@ -39,6 +39,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('stream-end', () => {
+    console.log(`received stream-end message`);
     clearInterval(endStream);
   });
 });
