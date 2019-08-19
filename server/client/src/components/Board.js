@@ -19,7 +19,7 @@ for (let i=0; i<10; i++) {
 const Board = () => {
   return (
     <BoardDiv>
-      {console.log(tempCellsArray)}
+      {/* {console.log(tempCellsArray)} */}
       {tempCellsArray.map((row, rowIndex) => {
         return row.map((cell, colIndex) => {
           return <Cell x={colIndex} y={rowIndex} key={`${colIndex},${rowIndex}`} />

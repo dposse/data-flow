@@ -14,7 +14,7 @@ const INITIAL_BOARD_STATE = [
 ];
 
 io.on('connection', (socket) => {
-  let endStream;
+  let endGame;
   
   console.log('user connected');
   socket.on('disconnect', () => {
@@ -22,12 +22,12 @@ io.on('connection', (socket) => {
   });
 
   //listen for events from client
-  socket.on('stream-start', () => {
+  socket.on('game-start', () => {
     //wall boolean - want to send alternating data and empty array
     let wall = true;
-    //send data stream to client
-    console.log('received stream-start message');
-    endStream = setInterval(() => {
+    //send data Game to client
+    console.log('received game-start message');
+    endGame = setInterval(() => {
       if (wall) {
         socket.emit('stuff', tileArray(WALL_SIZE));
         wall = !wall;
@@ -38,9 +38,18 @@ io.on('connection', (socket) => {
     }, 300);
   });
 
-  socket.on('stream-end', () => {
-    console.log(`received stream-end message`);
-    clearInterval(endStream);
+  socket.on('game-end', () => {
+    console.log(`received game-end message`);
+    clearInterval(endGame);
+  });
+
+  //movement input from front end
+  socket.on('move-left', () => {
+    console.log(`received move-left message`);
+  });
+
+  socket.on('move-right', () => {
+    console.log(`received move-right message`);
   });
 });
 
