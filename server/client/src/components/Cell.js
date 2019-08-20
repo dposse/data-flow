@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import dog from '../assets/Dog.gif';
 
 const CELL_SIZE = 40;
 
@@ -29,7 +30,9 @@ const Cell = ({ x, y, value }) => {
   `;
 
   return (
-    <CellDiv />
+    <CellDiv>
+      {/* <img src={dog} alt='player gif' /> */}
+    </CellDiv>
   );
 };
 
