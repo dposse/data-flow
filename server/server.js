@@ -55,10 +55,15 @@ io.on('connection', (socket) => {
       }
 
       //check for collision
+      if (playerCollided(board, playerPosition)) {
+        //end game
+        //send board and player state to client
+        //send endgame response
+        //break out of loop
+      }
 
       //send to client
-      
-      
+      socket.emit('state', { board, playerPosition });
       
       //set nextAction to none every tick so player doesn't just keep moving in one direction
       nextAction = 'none';
@@ -88,6 +93,7 @@ http.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
 
+// helper functions ////////////////////////////////////////////////
 //create random tileArray
 const tileArray = (size) => {
   const array = [];
@@ -125,4 +131,9 @@ const moveLeft = (currentPosition) => {
 
 const moveRight = (currentPosition) => {
   return (currentPosition === (WALL_SIZE - 1)) ? (WALL_SIZE - 1) : currentPosition + 1;
+}
+
+const playerCollided = (currentBoard, currentPosition) => {
+  //placeholder
+  return false;
 }

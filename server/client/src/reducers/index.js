@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import BoardReducer from './reducer-board';
-import PlayerReducer from './reducer-board';
+import PlayerReducer from './reducer-player';
 
 const rootReducer = combineReducers({
   board: BoardReducer,

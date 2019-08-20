@@ -30,9 +30,13 @@ const App = ({ updateBoard }) => {
     socket.emit('move-right');
   };
 
-  socket.on('stuff', (message) => {
-    // console.log(`got stuff: `, message);
+  socket.on('state', (message) => {
+    console.log(`received board state: `, message);
     updateBoard(message);
+  });
+
+  socket.on('player-state', (message) => {
+    console.log(`received player state: `, message);
   });
 
   //set keypresses to look out for

@@ -5,7 +5,7 @@ import dog from '../assets/Dog.gif';
 
 const CELL_SIZE = 40;
 
-const Cell = ({ x, y, value }) => {
+const Cell = ({ x, y, value, hasPlayer }) => {
   //set individual cell positions and size
   const left = CELL_SIZE * x + 1;
   const top = CELL_SIZE * y + 1;
@@ -29,7 +29,7 @@ const Cell = ({ x, y, value }) => {
     background-color: ${cellColor};
   `;
 
-  if (value === 'p') {
+  if (hasPlayer) {
     return (
       <CellDiv>
         <img src={dog} alt='player gif' style={{width: width, height: height}} />
@@ -43,7 +43,6 @@ const Cell = ({ x, y, value }) => {
 };
 
 function mapStateToProps(state, ownProps) {
-  
   return {
     value: state.board[ownProps.y][ownProps.x]
   }
