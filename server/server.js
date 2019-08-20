@@ -13,10 +13,13 @@ const INITIAL_BOARD_STATE = [
   [0,0,0,0,0]
 ];
 
-const INITIAL_PLAYER_POSITION = 3;
+//middle starting position - 0 leftmost, 4 rightmost positions on 5 tile board
+const INITIAL_PLAYER_POSITION = 2;
 
 io.on('connection', (socket) => {
-  let nextAction;
+  let board = INITIAL_BOARD_STATE;
+  let playerPosition = INITIAL_PLAYER_POSITION;
+  let nextAction = 'none';
   let endGame;
   
   console.log('user connected');
@@ -32,12 +35,24 @@ io.on('connection', (socket) => {
     console.log('received game-start message');
     endGame = setInterval(() => {
       //update game board every tick
-      
-      //remove first row
-
-      //add last row
+      board = updateBoard(board, wall);
+      wall = !wall;
 
       //move player based on nextAction
+      switch (nextAction) {
+        case 'left':
+          playerPosition = moveLeft(playerPosition);
+          console.log(`new player position: ${playerPosition}`);
+          break;
+        case 'right':
+            playerPosition = moveRight(playerPosition);
+            console.log(`new player position: ${playerPosition}`);
+          break;
+        case 'none':
+        default:
+          console.log(`no player movement`);
+          break;
+      }
 
       //check for collision
 
@@ -45,13 +60,8 @@ io.on('connection', (socket) => {
       
       
       
-      if (wall) {
-        socket.emit('stuff', tileArray(WALL_SIZE));
-        wall = !wall;
-      } else {
-        socket.emit('stuff', emptyArray(WALL_SIZE));
-        wall = !wall;
-      }
+      //set nextAction to none every tick so player doesn't just keep moving in one direction
+      nextAction = 'none';
     }, 1000);
   });
 
@@ -94,3 +104,25 @@ const emptyArray = (size) => {
   }
   return array;
 };
+
+const updateBoard = (currentBoard, wall) => {
+  //remove first row
+  const newBoard = currentBoard.slice(1);      
+
+  //add last row
+  if (wall) {
+    newBoard.push(tileArray(WALL_SIZE));
+  } else {
+    newBoard.push(emptyArray(WALL_SIZE));
+  }
+
+  return newBoard;
+};
+
+const moveLeft = (currentPosition) => {
+  return (currentPosition === 0) ? 0 : currentPosition - 1;
+}
+
+const moveRight = (currentPosition) => {
+  return (currentPosition === (WALL_SIZE - 1)) ? (WALL_SIZE - 1) : currentPosition + 1;
+}
