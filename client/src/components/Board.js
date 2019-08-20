@@ -16,7 +16,6 @@ const Board = ({ board, playerPosition }) => {
       {/* {console.log(tempCellsArray)} */}
       {board.map((row, rowIndex) => {
         return row.map((cell, colIndex) => {
-          console.log(`cell data: `, colIndex, playerPosition);
           if (rowIndex === 0 && playerPosition == colIndex) {
             return <Cell x={colIndex} y={rowIndex} key={`${colIndex},${rowIndex}`} hasPlayer={true} />
           } else {

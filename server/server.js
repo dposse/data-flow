@@ -16,11 +16,13 @@ const INITIAL_BOARD_STATE = [
 //middle starting position - 0 leftmost, 4 rightmost positions on 5 tile board
 const INITIAL_PLAYER_POSITION = 2;
 
+let board = INITIAL_BOARD_STATE;
+let playerPosition = INITIAL_PLAYER_POSITION;
+let nextAction = 'none';
+let endGame;
+
 io.on('connection', (socket) => {
-  let board = INITIAL_BOARD_STATE;
-  let playerPosition = INITIAL_PLAYER_POSITION;
-  let nextAction = 'none';
-  let endGame;
+  
   
   console.log('user connected');
   socket.on('disconnect', () => {
@@ -28,51 +30,14 @@ io.on('connection', (socket) => {
   });
 
   //listen for events from client
-  socket.on('game-start', () => {
-    //wall boolean - want to send alternating data and empty array
-    let wall = true;
-    //send data Game to client
-    console.log('received game-start message');
-    endGame = setInterval(() => {
-      //update game board every tick
-      board = updateBoard(board, wall);
-      wall = !wall;
-
-      //move player based on nextAction
-      switch (nextAction) {
-        case 'left':
-          playerPosition = moveLeft(playerPosition);
-          console.log(`new player position: ${playerPosition}`);
-          break;
-        case 'right':
-            playerPosition = moveRight(playerPosition);
-            console.log(`new player position: ${playerPosition}`);
-          break;
-        case 'none':
-        default:
-          console.log(`no player movement`);
-          break;
-      }
-
-      //check for collision
-      if (playerCollided(board, playerPosition)) {
-        //end game
-        //send board and player state to client
-        //send endgame response
-        //break out of loop
-      }
-
-      //send to client
-      socket.emit('state', { board, playerPosition });
-      
-      //set nextAction to none every tick so player doesn't just keep moving in one direction
-      nextAction = 'none';
-    }, 1000);
-  });
+  socket.on('game-start', runGame);
 
   socket.on('game-end', () => {
     console.log(`received game-end message`);
     clearInterval(endGame);
+    board = INITIAL_BOARD_STATE;
+    playerPosition = INITIAL_PLAYER_POSITION;
+    nextAction = 'none';
   });
 
   //movement input from front end
@@ -94,6 +59,50 @@ http.listen(PORT, () => {
 });
 
 // helper functions ////////////////////////////////////////////////
+const runGame = () => {
+  //wall boolean - want to send alternating data and empty array
+  let wall = true;
+  //send data Game to client
+  console.log('received game-start message');
+  endGame = setInterval(() => {
+    //update game board every tick
+    board = updateBoard(board, wall);
+    wall = !wall;
+
+    //move player based on nextAction
+    switch (nextAction) {
+      case 'left':
+        playerPosition = moveLeft(playerPosition);
+        console.log(`new player position: ${playerPosition}`);
+        break;
+      case 'right':
+        playerPosition = moveRight(playerPosition);
+        console.log(`new player position: ${playerPosition}`);
+        break;
+      case 'none':
+      default:
+        console.log(`no player movement`);
+        break;
+    }
+
+    //check for collision
+    if (playerCollided(board, playerPosition)) {
+      //end game
+      clearInterval(endGame);
+      //send board and player state to client with endgame response
+      io.sockets.emit('state', { board, playerPosition, lost: true })
+      //break out of loop
+      return;
+    }
+
+    //send to client
+    io.sockets.emit('state', { board, playerPosition, lost: false });
+    
+    //set nextAction to none every tick so player doesn't just keep moving in one direction
+    nextAction = 'none';
+  }, 1000);
+}
+
 //create random tileArray
 const tileArray = (size) => {
   const array = [];
@@ -134,6 +143,9 @@ const moveRight = (currentPosition) => {
 }
 
 const playerCollided = (currentBoard, currentPosition) => {
-  //placeholder
-  return false;
+  if (currentBoard[0][currentPosition] === 1) {
+    return true;
+  } else {
+    return false;
+  }
 }
