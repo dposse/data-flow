@@ -29,10 +29,16 @@ const Cell = ({ x, y, value }) => {
     background-color: ${cellColor};
   `;
 
+  if (value === 'p') {
+    return (
+      <CellDiv>
+        <img src={dog} alt='player gif' style={{width: width, height: height}} />
+      </CellDiv>
+    );
+  }
+
   return (
-    <CellDiv>
-      {/* <img src={dog} alt='player gif' /> */}
-    </CellDiv>
+    <CellDiv />
   );
 };
 

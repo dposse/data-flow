@@ -22,6 +22,7 @@ export default function (state = INITIAL_BOARD_STATE, action) {
       // console.log('data in reducer: ', action.payload);
       const newState = state.slice(1);
       newState.push(action.payload);
+      newState[0][0] = 'p';
       // console.log('new board: ', newState);
       return newState;
     default:
