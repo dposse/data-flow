@@ -3,7 +3,7 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const PORT = 5000;
-const WALL_SIZE = 10;
+const WALL_SIZE = 5;
 
 const INITIAL_BOARD_STATE = [
   [0,0,0,0,0],  
@@ -13,7 +13,10 @@ const INITIAL_BOARD_STATE = [
   [0,0,0,0,0]
 ];
 
+const INITIAL_PLAYER_POSITION = 3;
+
 io.on('connection', (socket) => {
+  let nextAction;
   let endGame;
   
   console.log('user connected');
@@ -28,6 +31,20 @@ io.on('connection', (socket) => {
     //send data Game to client
     console.log('received game-start message');
     endGame = setInterval(() => {
+      //update game board every tick
+      
+      //remove first row
+
+      //add last row
+
+      //move player based on nextAction
+
+      //check for collision
+
+      //send to client
+      
+      
+      
       if (wall) {
         socket.emit('stuff', tileArray(WALL_SIZE));
         wall = !wall;
@@ -35,7 +52,7 @@ io.on('connection', (socket) => {
         socket.emit('stuff', emptyArray(WALL_SIZE));
         wall = !wall;
       }
-    }, 300);
+    }, 1000);
   });
 
   socket.on('game-end', () => {
@@ -46,10 +63,14 @@ io.on('connection', (socket) => {
   //movement input from front end
   socket.on('move-left', () => {
     console.log(`received move-left message`);
+    nextAction = 'left';
+    console.log(`nextAction: ${nextAction}`);
   });
 
   socket.on('move-right', () => {
     console.log(`received move-right message`);
+    nextAction = 'right';
+    console.log(`nextAction: ${nextAction}`);
   });
 });
 
