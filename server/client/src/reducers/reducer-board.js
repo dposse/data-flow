@@ -1,4 +1,4 @@
-import { UPDATE_BOARD } from '../actions';
+import { UPDATE } from '../actions';
 
 //create initial board, all 0's
 const INITIAL_BOARD_STATE = [
@@ -13,7 +13,7 @@ const INITIAL_BOARD_STATE = [
 export default function (state = INITIAL_BOARD_STATE, action) {
   if (action.error) return action.error;
   switch (action.type) {
-    case UPDATE_BOARD:
+    case UPDATE:
       console.log('data in reducer: ', action.payload.board);
       return action.payload.board;
     default:

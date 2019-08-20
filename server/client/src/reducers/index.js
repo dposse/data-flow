@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import BoardReducer from './reducer-board';
 import PlayerReducer from './reducer-player';
+import LossReducer from './reducer-loss';
 
 const rootReducer = combineReducers({
   board: BoardReducer,
-  player: PlayerReducer
+  player: PlayerReducer,
+  gameLost: LossReducer
 });
 
 export default rootReducer;

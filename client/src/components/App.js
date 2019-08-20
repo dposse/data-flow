@@ -8,7 +8,7 @@ import { updateBoard } from '../actions';
 
 
 
-const App = ({ updateBoard }) => {
+const App = ({ updateBoard, gameLost }) => {
   //sockets should be handled in relevant components
   const startGame = () => {
     console.log('sending start game to server');
@@ -35,10 +35,6 @@ const App = ({ updateBoard }) => {
     updateBoard(message);
   });
 
-  socket.on('player-state', (message) => {
-    console.log(`received player state: `, message);
-  });
-
   //set keypresses to look out for
   const aKey = useKeyPress('a');
   const dKey = useKeyPress('d');
@@ -54,6 +50,7 @@ const App = ({ updateBoard }) => {
       {dKey && sendRightInput()}
       {leftKey && sendLeftInput()}
       {rightKey && sendRightInput()}
+      {gameLost && <div style={{marginTop: '250px'}}>game has been lost</div>}
     </Fragment>
   );
 }
@@ -88,8 +85,14 @@ const useKeyPress = (targetKey) => {
   return keyPressed;
 }
 
+function mapStateToProps(state) {
+  return {
+    gameLost: state.gameLost
+  }
+}
+
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ updateBoard }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
