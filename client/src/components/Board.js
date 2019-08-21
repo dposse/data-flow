@@ -6,8 +6,6 @@ import styled from 'styled-components';
 const CELL_SIZE = 40;
 const WIDTH = 400;
 const HEIGHT = 400;
-//using temp array to test frontend
-//replace with redux store and mapStateToProps
 
 
 const Board = ({ board, playerPosition }) => {
@@ -16,7 +14,7 @@ const Board = ({ board, playerPosition }) => {
       {/* {console.log(tempCellsArray)} */}
       {board.map((row, rowIndex) => {
         return row.map((cell, colIndex) => {
-          if (rowIndex === 0 && playerPosition == colIndex) {
+          if (rowIndex === 0 && playerPosition === colIndex) {
             return <Cell x={colIndex} y={rowIndex} key={`${colIndex},${rowIndex}`} hasPlayer={true} />
           } else {
             return <Cell x={colIndex} y={rowIndex} key={`${colIndex},${rowIndex}`} hasPlayer={false} />

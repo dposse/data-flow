@@ -15,3 +15,19 @@ Frontend plan
     - [ ] jump
 
 - [ ] only redux emits socket messages
+
+
+
+
+
+5x5
+  25
+  player position
+  nextAction
+  = 27 input layer
+  get permutations of above
+
+output layer
+  no movement
+  left
+  right
