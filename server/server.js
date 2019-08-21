@@ -2,37 +2,28 @@ const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+const gameConstants = require('./gameConstants');
 const RandomBotPlayer = require('./players/RandomBotPlayer');
+const MLPlayer = require('./players/MLPlayer');
 
 const PORT = 5000;
-const WALL_SIZE = 5;
-const GAME_TICK = 1000;
 
-const INITIAL_BOARD_STATE = [
-  [0,0,0,0,0],  
-  [0,0,0,0,0],  
-  [0,0,0,0,0],  
-  [0,0,0,0,0],
-  [0,0,0,0,0]
-];
-//middle starting position - 0 leftmost, 4 rightmost positions on 5 tile board
-const INITIAL_PLAYER_POSITION = 2;
 
-let board = INITIAL_BOARD_STATE;
-let playerPosition = INITIAL_PLAYER_POSITION;
+let board = gameConstants.INITIAL_BOARD_STATE;
+let playerPosition = gameConstants.INITIAL_PLAYER_POSITION;
 let nextAction = 'none';
 let endGame;
 
 const main = async () => {
-  //main doesn't know/care if its bot or human
-  const player = new RandomBotPlayer();
+  //main doesn't know/care if its bot or human, change player between human/random/ml
+  const player = new MLPlayer();
   await player.initialize();
   await runGame(player);
   player.stop();
 };
 
 
-
+//below should be initialized in human player, leaving for now
 // io.on('connection', (socket) => {
   
   
@@ -119,7 +110,7 @@ const runGame = (player) => {
         
         //set nextAction to none every tick so player doesn't just keep moving in one direction
         nextAction = 'none';
-      }, GAME_TICK);
+      }, gameConstants.GAME_TICK);
   });
 }
 
@@ -146,9 +137,9 @@ const updateBoard = (currentBoard, wall) => {
 
   //add last row
   if (wall) {
-    newBoard.push(tileArray(WALL_SIZE));
+    newBoard.push(tileArray(gameConstants.WALL_SIZE));
   } else {
-    newBoard.push(emptyArray(WALL_SIZE));
+    newBoard.push(emptyArray(gameConstants.WALL_SIZE));
   }
 
   return newBoard;
@@ -159,7 +150,7 @@ const moveLeft = (currentPosition) => {
 }
 
 const moveRight = (currentPosition) => {
-  return (currentPosition === (WALL_SIZE - 1)) ? (WALL_SIZE - 1) : currentPosition + 1;
+  return (currentPosition === (gameConstants.WALL_SIZE - 1)) ? (gameConstants.WALL_SIZE - 1) : currentPosition + 1;
 }
 
 const playerCollided = (currentBoard, currentPosition) => {

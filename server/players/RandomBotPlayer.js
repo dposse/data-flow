@@ -4,7 +4,10 @@ class RandomBotPlayer {
     // this.botLoop = setInterval(() => {
     //   this.randomMove();
     // }, 1000);
-    this.nextAction = 'none';
+    return new Promise((resolve, reject) => {
+      this.nextAction = 'none';
+      resolve();
+    });
   }
 
   //receive state from game loop, submit next move
