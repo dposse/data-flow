@@ -66,13 +66,12 @@ const runGame = (player) => {
   return new Promise((resolve, reject) => {
       console.log(`called runGame`);
       //wall boolean - want to send alternating data and empty array
-      let wall = true;
+      let gamestep = 0;
       //send data Game to client
       console.log('received game-start message');
       endGame = setInterval(() => {
         //update game board every tick
-        board = updateBoard(board, wall);
-        wall = !wall;
+        board = updateBoard(board, gamestep);
     
         //move player based on nextAction
         switch (player.getMove()) {
@@ -111,6 +110,7 @@ const runGame = (player) => {
         
         //set nextAction to none every tick so player doesn't just keep moving in one direction
         nextAction = 'none';
+        gamestep++;
       }, gameConstants.GAME_TICK);
   });
 }
@@ -132,12 +132,12 @@ const emptyArray = (size) => {
   return array;
 };
 
-const updateBoard = (currentBoard, wall) => {
+const updateBoard = (currentBoard, counter) => {
   //remove first row
   const newBoard = currentBoard.slice(1);      
 
   //add last row
-  if (wall) {
+  if (counter % 3 === 0) {
     newBoard.push(tileArray(gameConstants.WALL_SIZE));
   } else {
     newBoard.push(emptyArray(gameConstants.WALL_SIZE));
