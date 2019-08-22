@@ -31,3 +31,16 @@ output layer
   no movement
   left
   right
+
+
+
+notes wed 
+ timebox training - until midnight tonight otherwise move on
+ 
+ if can get training going
+  move on to moving
+
+export to webgl through iframe
+  unity and ml agents
+  bridge that can send messages through js to c#
+

@@ -96,6 +96,7 @@ const runGame = (player) => {
         if (playerCollided(board, playerPosition)) {
           //end game
           clearInterval(endGame);
+          console.log(`collision, game lost`);
           //send board and player state to client with endgame response
           io.sockets.emit('state', { board, playerPosition, lost: true })
           //break out of loop
