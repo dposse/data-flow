@@ -107,7 +107,7 @@ const runGame = (player) => {
         //send to client
         io.sockets.emit('state', { board, playerPosition, lost: false });
         //update state of player, i.e. player.updateGameState()
-        player.updateGameState();
+        player.updateGameState(board, playerPosition);
         
         //set nextAction to none every tick so player doesn't just keep moving in one direction
         nextAction = 'none';
