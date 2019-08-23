@@ -142,7 +142,7 @@ const runGame = (player) => {
             break;
         }
 
-        recalculateInputPercentages();
+        updateInputPercentages();
         
         //check for collision
         if (playerCollided(board, playerPosition)) {
@@ -178,6 +178,7 @@ const runGame = (player) => {
         statistics.gameSteps.currentGame = gamestep;
         statistics.gameSteps.total++;
         updateTilePercents();
+        updateMovementPercents();
         statistics.actions.total++;
         //send statistics to client
         io.sockets.emit('statistics', statistics);
@@ -279,7 +280,12 @@ const updateTilePercents = () => {
   statistics.tiles.percentClosed = statistics.tiles.closed / statistics.tiles.total;
 };
 
-const recalculateInputPercentages = () => {
+const updateInputPercentages = () => {
   statistics.actions.percentLeftInput = statistics.actions.numberOfLeftInputs / statistics.actions.total;
   statistics.actions.percentRightInput = statistics.actions.numberOfRightInputs / statistics.actions.total;
+};
+
+const updateMovementPercents = () => {
+  statistics.movement.percentLeftMovement = statistics.movement.leftDistance / statistics.movement.total;
+  statistics.movement.percentRightMovement = statistics.movement.rightDistance / statistics.movement.total;
 };
