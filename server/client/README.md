@@ -1,19 +1,46 @@
 Thursday night plan:
 - [X] buttons on front end start/stop simulation loop
   - [X] continuous until stop button pressed
-- [ ] sends stats in its own loop - match ticks?
-  - [ ] number of games
-  - [ ] game ticks - line graph?
-    - [ ] total
-    - [ ] this game
-    - [ ] highest
-    - [ ] average
+- [ ] sends stats in its own loop - match ticks? - CURRENTLY sent in game loop
+  - [X] number of games
+  - [ ] game steps - line graph?
+    - [X] total
+    - [X] this game
+    - [X] highest
+    - [X] average
   - [ ] tiles
     - [ ] total
     - [ ] empty
     - [ ] deadly
     - [ ] percentages
+  - [ ] actions
+    - [ ] input left
+    - [ ] input right
+    - [ ] (maybe input none)
+    - [ ] percentages
+  - [ ] movement
+    - [ ] amount left
+    - [ ] amount right
+    - [ ] percentages
 
+
+const statistics = {
+  gamesPlayed: 0,
+  gameSteps: {
+    total: 0,
+    currentGame: 0,
+    highest: 0,
+    average: 0,
+    eachGame: []
+  },
+  tiles: {
+    total: 0,
+    open: 0,
+    closed: 0,
+    percentOpen: 0,
+    percentClosed: 0
+  }
+};
 
 
 Frontend plan

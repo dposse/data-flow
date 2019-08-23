@@ -15,13 +15,31 @@ let nextAction;
 let endGame;
 
 const statistics = {
-  gamesPlayed: 0
+  gamesPlayed: 0,
+  gameSteps: {
+    total: 0,
+    currentGame: 0,
+    highest: 0,
+    average: 0,
+    eachGame: []
+  },
+  tiles: {
+    total: 0,
+    open: 0,
+    closed: 0,
+    percentOpen: 0,
+    percentClosed: 0
+  }
 };
 
 const initializeGame = () => {
   board = gameConstants.INITIAL_BOARD_STATE;
   playerPosition = gameConstants.INITIAL_PLAYER_POSITION;
   nextAction = 'none';
+  statistics.gameSteps.currentGame = 0;
+  // game starts with NxN open tiles
+  statistics.tiles.total += (WALL_SIZE * WALL_SIZE);
+  statistics.tiles.open += (WALL_SIZE * WALL_SIZE);
 }
 
 const runSimulation = async () => {
@@ -117,6 +135,12 @@ const runGame = (player) => {
           io.sockets.emit('state', { board, playerPosition, lost: true });
           //update and send statistics
           statistics.gamesPlayed++;
+          if (gamestep > statistics.gameSteps.highest) {
+            statistics.gameSteps.highest = gamestep;
+          }
+          statistics.gameSteps.eachGame.push(gamestep);
+          statistics.gameSteps.average = getAverageFromArray(statistics.gameSteps.eachGame);
+          
           io.sockets.emit('statistics', statistics);
           //break out of loop
           resolve();
@@ -132,6 +156,8 @@ const runGame = (player) => {
         //set nextAction to none every tick so player doesn't just keep moving in one direction
         nextAction = 'none';
         gamestep++;
+        statistics.gameSteps.currentGame = gamestep;
+        statistics.gameSteps.total++;
         //send statistics to client
         io.sockets.emit('statistics', statistics);
       }, gameConstants.GAME_TICK);
@@ -184,6 +210,11 @@ const playerCollided = (currentBoard, currentPosition) => {
     return false;
   }
 }
+
+const getAverageFromArray = (array) => {
+  const sum = array.reduce((acc, curr) => acc + curr);
+  return sum / array.length;
+};
 
 
 
