@@ -13,11 +13,11 @@ Thursday night plan:
     - [X] empty
     - [X] deadly
     - [X] percentages
-  - [ ] actions
-    - [ ] input left
-    - [ ] input right
+  - [X] actions
+    - [X] input left
+    - [X] input right
     - [ ] (maybe input none)
-    - [ ] percentages
+    - [X] percentages
   - [ ] movement
     - [ ] amount left
     - [ ] amount right
@@ -39,6 +39,13 @@ const statistics = {
     closed: 0,
     percentOpen: 0,
     percentClosed: 0
+  },
+  actions: {
+    numberOfLeftInputs: 0,
+    numberOfRightInputs: 0,
+    // if an ml model can choose no movement, add here
+    percentLeftInput: 0,
+    percentRightInput: 0
   }
 };
 

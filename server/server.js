@@ -29,6 +29,14 @@ const statistics = {
     closed: 0,
     percentOpen: 0,
     percentClosed: 0
+  },
+  actions: {
+    total: 0,
+    numberOfLeftInputs: 0,
+    numberOfRightInputs: 0,
+    // if an ml model can choose no movement, add here
+    percentLeftInput: 0,
+    percentRightInput: 0
   }
 };
 
@@ -100,7 +108,6 @@ http.listen(PORT, () => {
 const runGame = (player) => {
   return new Promise((resolve, reject) => {
       console.log(`called runGame`);
-      //wall boolean - want to send alternating data and empty array
       let gamestep = 0;
       //send data Game to client
       console.log('received simulation-start message');
@@ -113,11 +120,13 @@ const runGame = (player) => {
           case 'left':
             console.log(`next action set to left`);
             playerPosition = moveLeft(playerPosition);
+            statistics.actions.numberOfLeftInputs++;
             console.log(`new player position: ${playerPosition}`);
             break;
           case 'right':
             console.log(`next action set to right`);
             playerPosition = moveRight(playerPosition);
+            statistics.actions.numberOfRightInputs++;
             console.log(`new player position: ${playerPosition}`);
             break;
           case 'none':
@@ -125,7 +134,9 @@ const runGame = (player) => {
             console.log(`no player movement`);
             break;
         }
-    
+
+        recalculateInputPercentages();
+        
         //check for collision
         if (playerCollided(board, playerPosition)) {
           //end game
@@ -156,9 +167,11 @@ const runGame = (player) => {
         //set nextAction to none every tick so player doesn't just keep moving in one direction
         nextAction = 'none';
         gamestep++;
+        //update statistics
         statistics.gameSteps.currentGame = gamestep;
         statistics.gameSteps.total++;
         updateTilePercents();
+        statistics.actions.total++;
         //send statistics to client
         io.sockets.emit('statistics', statistics);
       }, gameConstants.GAME_TICK);
@@ -244,6 +257,11 @@ const getAverageFromArray = (array) => {
 const updateTilePercents = () => {
   statistics.tiles.percentOpen = statistics.tiles.open / statistics.tiles.total;
   statistics.tiles.percentClosed = statistics.tiles.closed / statistics.tiles.total;
+};
+
+const recalculateInputPercentages = () => {
+  statistics.actions.percentLeftInput = statistics.actions.numberOfLeftInputs / statistics.actions.total;
+  statistics.actions.percentRightInput = statistics.actions.numberOfRightInputs / statistics.actions.total;
 };
 
 
