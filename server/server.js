@@ -38,8 +38,8 @@ const initializeGame = () => {
   nextAction = 'none';
   statistics.gameSteps.currentGame = 0;
   // game starts with NxN open tiles
-  statistics.tiles.total += (WALL_SIZE * WALL_SIZE);
-  statistics.tiles.open += (WALL_SIZE * WALL_SIZE);
+  statistics.tiles.total += (gameConstants.WALL_SIZE * gameConstants.WALL_SIZE);
+  statistics.tiles.open += (gameConstants.WALL_SIZE * gameConstants.WALL_SIZE);
 }
 
 const runSimulation = async () => {
@@ -158,6 +158,7 @@ const runGame = (player) => {
         gamestep++;
         statistics.gameSteps.currentGame = gamestep;
         statistics.gameSteps.total++;
+        updateTilePercents();
         //send statistics to client
         io.sockets.emit('statistics', statistics);
       }, gameConstants.GAME_TICK);
@@ -181,15 +182,26 @@ const emptyArray = (size) => {
   return array;
 };
 
+//no longer pure because updating statistics object - refactor possible
 const updateBoard = (currentBoard, counter) => {
   //remove first row
-  const newBoard = currentBoard.slice(1);      
+  const newBoard = currentBoard.slice(1);   
+  //no matter what total tiles += wallsize   
+  statistics.tiles.total += gameConstants.WALL_SIZE;
 
   //add last row
   if (counter % 3 === 0) {
     newBoard.push(tileArray(gameConstants.WALL_SIZE));
+    newBoard[gameConstants.WALL_SIZE-1].forEach((tile) => {
+      if (tile === 0) {
+        statistics.tiles.open++;
+      } else if (tile === 1) { //adding if here in case adding new tiles in the future
+        statistics.tiles.closed++;
+      }
+    });
   } else {
     newBoard.push(emptyArray(gameConstants.WALL_SIZE));
+    statistics.tiles.open += gameConstants.WALL_SIZE;
   }
 
   return newBoard;
@@ -216,7 +228,10 @@ const getAverageFromArray = (array) => {
   return sum / array.length;
 };
 
-
+const updateTilePercents = () => {
+  statistics.tiles.percentOpen = statistics.tiles.open / statistics.tiles.total;
+  statistics.tiles.percentClosed = statistics.tiles.closed / statistics.tiles.total;
+};
 
 
 // main();

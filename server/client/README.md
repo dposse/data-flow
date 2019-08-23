@@ -3,16 +3,16 @@ Thursday night plan:
   - [X] continuous until stop button pressed
 - [ ] sends stats in its own loop - match ticks? - CURRENTLY sent in game loop
   - [X] number of games
-  - [ ] game steps - line graph?
+  - [X] game steps - line graph?
     - [X] total
     - [X] this game
     - [X] highest
     - [X] average
-  - [ ] tiles
-    - [ ] total
-    - [ ] empty
-    - [ ] deadly
-    - [ ] percentages
+  - [X] tiles
+    - [X] total
+    - [X] empty
+    - [X] deadly
+    - [X] percentages
   - [ ] actions
     - [ ] input left
     - [ ] input right
