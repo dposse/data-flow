@@ -44,37 +44,31 @@ Thursday night plan:
     - [X] percentages
 
 
-const statistics = {
-  gamesPlayed: 0,
-  gameSteps: {
-    total: 0,
-    currentGame: 0,
-    highest: 0,
-    average: 0,
-    eachGame: []
-  },
-  tiles: {
-    total: 0,
-    open: 0,
-    closed: 0,
-    percentOpen: 0,
-    percentClosed: 0
-  },
-  actions: {
-    numberOfLeftInputs: 0,
-    numberOfRightInputs: 0,
-    // if an ml model can choose no movement, add here
-    percentLeftInput: 0,
-    percentRightInput: 0
-  },
-  movement: {
-    total: 0,
-    leftDistance: 0,
-    rightDistance: 0,
-    percentLeftMovement: 0,
-    percentRightMovement: 0
-  }
-};
+currentGameStatistics = {
+    gameSteps: 0,
+    tiles: {
+      total: 0,
+      open: 0,
+      closed: 0,
+      percentOpen: 0,
+      percentClosed: 0
+    },
+    actions: {
+      total: 0,
+      numberOfLeftInputs: 0,
+      numberOfRightInputs: 0,
+      // if an ml model can choose no movement, add here
+      percentLeftInput: 0,
+      percentRightInput: 0
+    },
+    movement: {
+      total: 0,
+      leftDistance: 0,
+      rightDistance: 0,
+      percentLeftMovement: 0,
+      percentRightMovement: 0
+    }
+  };
 
 
 Frontend plan

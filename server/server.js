@@ -9,53 +9,47 @@ const MLPlayer = require('./players/MLPlayer');
 const PORT = 5000;
 let simulationRunning = false;
 
+const statistics = [];
+let currentGameStatistics;
+
 let board;
 let playerPosition;
 let nextAction;
 let endGame;
 
-//SEPARATE THIS OUT INTO A GAME SPECIFIC 
-const statistics = {
-  gamesPlayed: 0,
-  gameSteps: {
-    total: 0,
-    currentGame: 0,
-    highest: 0,
-    average: 0,
-    eachGame: []
-  },
-  tiles: {
-    total: 0,
-    open: 0,
-    closed: 0,
-    percentOpen: 0,
-    percentClosed: 0
-  },
-  actions: {
-    total: 0,
-    numberOfLeftInputs: 0,
-    numberOfRightInputs: 0,
-    // if an ml model can choose no movement, add here
-    percentLeftInput: 0,
-    percentRightInput: 0
-  },
-  movement: {
-    total: 0,
-    leftDistance: 0,
-    rightDistance: 0,
-    percentLeftMovement: 0,
-    percentRightMovement: 0
-  }
-};
-
 const initializeGame = () => {
   board = gameConstants.INITIAL_BOARD_STATE;
   playerPosition = gameConstants.INITIAL_PLAYER_POSITION;
   nextAction = 'none';
-  statistics.gameSteps.currentGame = 0;
+  currentGameStatistics = {
+    gameSteps: 0,
+    tiles: {
+      total: 0,
+      open: 0,
+      closed: 0,
+      percentOpen: 0,
+      percentClosed: 0
+    },
+    actions: {
+      total: 0,
+      numberOfLeftInputs: 0,
+      numberOfRightInputs: 0,
+      // if an ml model can choose no movement, add here
+      percentLeftInput: 0,
+      percentRightInput: 0
+    },
+    movement: {
+      total: 0,
+      leftDistance: 0,
+      rightDistance: 0,
+      percentLeftMovement: 0,
+      percentRightMovement: 0
+    }
+  };
   // game starts with NxN open tiles
-  statistics.tiles.total += (gameConstants.WALL_SIZE * gameConstants.WALL_SIZE);
-  statistics.tiles.open += (gameConstants.WALL_SIZE * gameConstants.WALL_SIZE);
+  currentGameStatistics.tiles.total += (gameConstants.WALL_SIZE * gameConstants.WALL_SIZE);
+  currentGameStatistics.tiles.open += (gameConstants.WALL_SIZE * gameConstants.WALL_SIZE);
+  statistics.push(currentGameStatistics);
 }
 
 const runSimulation = async () => {
@@ -128,13 +122,13 @@ const runGame = (player) => {
           case 'left':
             console.log(`next action set to left`);
             playerPosition = moveLeft(playerPosition);
-            statistics.actions.numberOfLeftInputs++;
+            currentGameStatistics.actions.numberOfLeftInputs++;
             console.log(`new player position: ${playerPosition}`);
             break;
           case 'right':
             console.log(`next action set to right`);
             playerPosition = moveRight(playerPosition);
-            statistics.actions.numberOfRightInputs++;
+            currentGameStatistics.actions.numberOfRightInputs++;
             console.log(`new player position: ${playerPosition}`);
             break;
           case 'none':
@@ -153,13 +147,6 @@ const runGame = (player) => {
           //send board and player state to client with endgame response
           io.sockets.emit('state', { board, playerPosition, lost: true });
           //update and send statistics
-          statistics.gamesPlayed++;
-          if (gamestep > statistics.gameSteps.highest) {
-            statistics.gameSteps.highest = gamestep;
-          }
-          statistics.gameSteps.eachGame.push(gamestep);
-          statistics.gameSteps.average = getAverageFromArray(statistics.gameSteps.eachGame);
-          
           io.sockets.emit('statistics', statistics);
           //break out of loop
           resolve();
@@ -176,11 +163,10 @@ const runGame = (player) => {
         nextAction = 'none';
         gamestep++;
         //update statistics
-        statistics.gameSteps.currentGame = gamestep;
-        statistics.gameSteps.total++;
+        currentGameStatistics.gameSteps = gamestep;
         updateTilePercents();
         updateMovementPercents();
-        statistics.actions.total++;
+        currentGameStatistics.actions.total++;
         //send statistics to client
         io.sockets.emit('statistics', statistics);
       }, gameConstants.GAME_TICK);
@@ -222,21 +208,21 @@ const updateBoard = (currentBoard, counter) => {
   //remove first row
   const newBoard = currentBoard.slice(1);   
   //no matter what total tiles += wallsize   
-  statistics.tiles.total += gameConstants.WALL_SIZE;
+  currentGameStatistics.tiles.total += gameConstants.WALL_SIZE;
 
   //add last row
   if (counter % 3 === 0) {
     newBoard.push(tileArray(gameConstants.WALL_SIZE));
     newBoard[gameConstants.WALL_SIZE-1].forEach((tile) => {
       if (tile === 0) {
-        statistics.tiles.open++;
+        currentGameStatistics.tiles.open++;
       } else if (tile === 1) { //adding if here in case adding new tiles in the future
-        statistics.tiles.closed++;
+        currentGameStatistics.tiles.closed++;
       }
     });
   } else {
     newBoard.push(emptyArray(gameConstants.WALL_SIZE));
-    statistics.tiles.open += gameConstants.WALL_SIZE;
+    currentGameStatistics.tiles.open += gameConstants.WALL_SIZE;
   }
 
   return newBoard;
@@ -247,8 +233,8 @@ const moveLeft = (currentPosition) => {
   if (currentPosition === 0) {
     return 0;
   } else {
-    statistics.movement.total++;
-    statistics.movement.leftDistance++;
+    currentGameStatistics.movement.total++;
+    currentGameStatistics.movement.leftDistance++;
     return currentPosition - 1;
   }
 };
@@ -257,8 +243,8 @@ const moveRight = (currentPosition) => {
   if (currentPosition === (gameConstants.WALL_SIZE - 1)) {
     return gameConstants.WALL_SIZE - 1;
   } else {
-    statistics.movement.total++;
-    statistics.movement.rightDistance++;
+    currentGameStatistics.movement.total++;
+    currentGameStatistics.movement.rightDistance++;
     return currentPosition + 1;
   }
 };
@@ -277,17 +263,17 @@ const getAverageFromArray = (array) => {
 };
 
 const updateTilePercents = () => {
-  statistics.tiles.percentOpen = statistics.tiles.open / statistics.tiles.total;
-  statistics.tiles.percentClosed = statistics.tiles.closed / statistics.tiles.total;
+  currentGameStatistics.tiles.percentOpen = currentGameStatistics.tiles.open / currentGameStatistics.tiles.total;
+  currentGameStatistics.tiles.percentClosed = currentGameStatistics.tiles.closed / currentGameStatistics.tiles.total;
 };
 
 const updateInputPercentages = () => {
-  statistics.actions.percentLeftInput = statistics.actions.numberOfLeftInputs / statistics.actions.total;
-  statistics.actions.percentRightInput = statistics.actions.numberOfRightInputs / statistics.actions.total;
+  currentGameStatistics.actions.percentLeftInput = currentGameStatistics.actions.numberOfLeftInputs / currentGameStatistics.actions.total;
+  currentGameStatistics.actions.percentRightInput = currentGameStatistics.actions.numberOfRightInputs / currentGameStatistics.actions.total;
 };
 
 const updateMovementPercents = () => {
-  statistics.movement.percentLeftMovement = statistics.movement.leftDistance / statistics.movement.total;
-  statistics.movement.percentRightMovement = statistics.movement.rightDistance / statistics.movement.total;
+  currentGameStatistics.movement.percentLeftMovement = currentGameStatistics.movement.leftDistance / currentGameStatistics.movement.total;
+  currentGameStatistics.movement.percentRightMovement = currentGameStatistics.movement.rightDistance / currentGameStatistics.movement.total;
 
 };
