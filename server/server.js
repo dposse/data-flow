@@ -7,12 +7,19 @@ const RandomBotPlayer = require('./players/RandomBotPlayer');
 const MLPlayer = require('./players/MLPlayer');
 
 const PORT = 5000;
+let simulationRunning = false;
 
 
 let board = gameConstants.INITIAL_BOARD_STATE;
 let playerPosition = gameConstants.INITIAL_PLAYER_POSITION;
 let nextAction = 'none';
 let endGame;
+
+const runSimulation = async () => {
+  while (simulationRunning) {
+    await main();
+  }
+};
 
 const main = async () => {
   //main doesn't know/care if its bot or human, change player between human/random/ml
@@ -24,38 +31,36 @@ const main = async () => {
 
 
 //below should be initialized in human player, leaving for now
-// io.on('connection', (socket) => {
-  
-  
-//   console.log('user connected');
-//   socket.on('disconnect', () => {
-//     console.log('user disconnected');
-//   });
+io.on('connection', (socket) => {  
+  console.log('user connected');
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
 
-//   //listen for events from client
-//   socket.on('game-start', runGame);
+  //listen for events from client
+  socket.on('simulation-start', () => {
+    simulationRunning = true;
+    runSimulation();
+  });
 
-//   socket.on('game-end', () => {
-//     console.log(`received game-end message`);
-//     clearInterval(endGame);
-//     board = INITIAL_BOARD_STATE;
-//     playerPosition = INITIAL_PLAYER_POSITION;
-//     nextAction = 'none';
-//   });
+  socket.on('simulation-end', () => {
+    console.log(`received simulation-end message`);
+    simulationRunning = false;
+  });
 
-//   //movement input from front end
-//   socket.on('move-left', () => {
-//     console.log(`received move-left message`);
-//     nextAction = 'left';
-//     console.log(`nextAction: ${nextAction}`);
-//   });
+  //movement input from front end
+  socket.on('move-left', () => {
+    console.log(`received move-left message`);
+    nextAction = 'left';
+    console.log(`nextAction: ${nextAction}`);
+  });
 
-//   socket.on('move-right', () => {
-//     console.log(`received move-right message`);
-//     nextAction = 'right';
-//     console.log(`nextAction: ${nextAction}`);
-//   });
-// });
+  socket.on('move-right', () => {
+    console.log(`received move-right message`);
+    nextAction = 'right';
+    console.log(`nextAction: ${nextAction}`);
+  });
+});
 
 http.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
@@ -68,7 +73,7 @@ const runGame = (player) => {
       //wall boolean - want to send alternating data and empty array
       let gamestep = 0;
       //send data Game to client
-      console.log('received game-start message');
+      console.log('received simulation-start message');
       endGame = setInterval(() => {
         //update game board every tick
         board = updateBoard(board, gamestep);
@@ -165,4 +170,4 @@ const playerCollided = (currentBoard, currentPosition) => {
 
 
 
-main();
+// main();

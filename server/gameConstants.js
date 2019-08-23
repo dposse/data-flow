@@ -3,7 +3,7 @@
 
 module.exports = {
   WALL_SIZE: 5,
-  GAME_TICK: 200,
+  GAME_TICK: 500,
   INITIAL_BOARD_STATE: [
     [0,0,0,0,0],  
     [0,0,0,0,0],  

@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import dog from '../assets/Dog.gif';
-import loseDog from '../assets/DogLyingDown.png';
 
 const CELL_SIZE = 40;
 
@@ -14,6 +13,12 @@ const Cell = ({ x, y, value, hasPlayer }) => {
   const height = CELL_SIZE - 1;
   let cellColor;
 
+  if (value === 1) {
+    cellColor = 'turquoise';
+  } else {
+    cellColor = 'white';
+  }
+
   const CellDiv = styled.div`
     position: absolute;
     left: ${left}px;
@@ -23,22 +28,6 @@ const Cell = ({ x, y, value, hasPlayer }) => {
     border: 1px solid black;
     background-color: ${cellColor};
   `;
-
-  if (value === 1 && hasPlayer) {
-    return (
-      <CellDiv>
-        <img src={loseDog} alt='game lost' style={{width: width, height: height}} />
-      </CellDiv>
-    );
-  }
-
-  if (value === 1) {
-    cellColor = 'turquoise';
-  } else {
-    cellColor = 'white';
-  }
-
-  
 
   if (hasPlayer) {
     return (

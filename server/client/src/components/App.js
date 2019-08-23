@@ -10,14 +10,14 @@ import { updateBoard } from '../actions';
 
 const App = ({ updateBoard, gameLost }) => {
   //sockets should be handled in relevant components
-  const startGame = () => {
-    console.log('sending start game to server');
-    socket.emit('game-start');
+  const startSimulation = () => {
+    console.log('sending start simulation to server');
+    socket.emit('simulation-start');
   };
 
-  const endGame = () => {
-    console.log('sending end game to server');
-    socket.emit('game-end');
+  const endSimulation = () => {
+    console.log('sending end simulation to server');
+    socket.emit('simulation-end');
   };
 
   const sendLeftInput = () => {
@@ -43,8 +43,8 @@ const App = ({ updateBoard, gameLost }) => {
 
   return (
     <Fragment>
-      <button onClick={startGame}>start game</button>
-      <button onClick={endGame}>end game</button>
+      <button onClick={startSimulation}>start simulation</button>
+      <button onClick={endSimulation}>end simulation</button>
       <Board />
       {aKey && sendLeftInput()}
       {dKey && sendRightInput()}

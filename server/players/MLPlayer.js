@@ -4,7 +4,7 @@ const { WALL_SIZE } = require('../gameConstants');
 class MLPlayer {
   async initialize() {
     //load model from files
-    this.model = await tf.loadLayersModel('file://players/mladventures-v0.json');
+    this.model = await tf.loadLayersModel('file://tensorflow_models/mladventures-v0.json');
     console.log(`loaded model: `, this.model);
     this.nextAction = 'none';
   }

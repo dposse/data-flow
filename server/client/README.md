@@ -1,3 +1,21 @@
+Thursday night plan:
+- [ ] buttons on front end start/stop simulation loop
+  - [ ] continuous until stop button pressed
+- [ ] sends stats in its own loop - match ticks?
+  - [ ] number of games
+  - [ ] game ticks - line graph?
+    - [ ] total
+    - [ ] this game
+    - [ ] highest
+    - [ ] average
+  - [ ] tiles
+    - [ ] total
+    - [ ] empty
+    - [ ] deadly
+    - [ ] percentages
+
+
+
 Frontend plan
 
 - [ ] make game grid
@@ -15,6 +33,8 @@ Frontend plan
     - [ ] jump
 
 - [ ] only redux emits socket messages
+
+
 
 
 
