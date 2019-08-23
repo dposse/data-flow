@@ -7,11 +7,19 @@ class MLPlayer {
     this.model = await tf.loadLayersModel('file://tensorflow_models/mladventures-v0.json');
     console.log(`loaded model: `, this.model);
     this.nextAction = 'none';
+    this.modelName = 'mladventures-v0';
   }
 
   //receive state from game loop, submit next move
   updateGameState(currentBoard, currentPlayerPosition) {
-    
+    /**
+     * if using mladventures-v0, create tensorArray for prediction like so:
+     *  const tensorArray = [].concat.apply([], currentBoard);
+     *  tensorArray.push(currentPlayerPosition);
+     * if using mladventures-nextrowonly, create tensorArray for prediction like so:
+     *  const tensorArray = [...currentBoard[1]];
+     *  tensorArray.push(currentPlayerPosition);
+     */
     tf.tidy(() => {
       //in ML model make prediction here - probably needs await
       console.log(currentBoard);
@@ -45,6 +53,10 @@ class MLPlayer {
   //game asks for players move every tick
   getMove() {
     return this.nextAction;
+  }
+
+  getModelName() {
+    return this.modelName;
   }
 
   stop() {

@@ -9,11 +9,16 @@ const MLPlayer = require('./players/MLPlayer');
 const PORT = 5000;
 let simulationRunning = false;
 
-
-let board = gameConstants.INITIAL_BOARD_STATE;
-let playerPosition = gameConstants.INITIAL_PLAYER_POSITION;
-let nextAction = 'none';
+let board;
+let playerPosition;
+let nextAction;
 let endGame;
+
+const initializeGame = () => {
+  board = gameConstants.INITIAL_BOARD_STATE;
+  playerPosition = gameConstants.INITIAL_PLAYER_POSITION;
+  nextAction = 'none';
+}
 
 const runSimulation = async () => {
   while (simulationRunning) {
@@ -22,6 +27,9 @@ const runSimulation = async () => {
 };
 
 const main = async () => {
+  //not pure function, consider changing
+  //needed to reset board/position between games while in continuous simulation loop
+  initializeGame();
   //main doesn't know/care if its bot or human, change player between human/random/ml
   const player = new MLPlayer();
   await player.initialize();
@@ -108,8 +116,9 @@ const runGame = (player) => {
           return;
         }
     
-        //send to client
+        //send state to client
         io.sockets.emit('state', { board, playerPosition, lost: false });
+
         //update state of player, i.e. player.updateGameState()
         player.updateGameState(board, playerPosition);
         
