@@ -245,6 +245,7 @@ const moveLeft = (currentPosition) => {
   if (currentPosition === 0) {
     return 0;
   } else {
+    statistics.movement.total++;
     statistics.movement.leftDistance++;
     return currentPosition - 1;
   }
@@ -254,6 +255,7 @@ const moveRight = (currentPosition) => {
   if (currentPosition === (gameConstants.WALL_SIZE - 1)) {
     return gameConstants.WALL_SIZE - 1;
   } else {
+    statistics.movement.total++;
     statistics.movement.rightDistance++;
     return currentPosition + 1;
   }

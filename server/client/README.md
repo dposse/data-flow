@@ -1,3 +1,20 @@
+NOTES ON ML MODELS
+1st model
+  - trained on first iteration of game where every other row had tiles. the rows could be impossible, i.e. [1,1,1,1,1]
+  - whole board passed in as input tensor to model - 5x5 = 25 nodes + 1 for player position
+  - only learned to stay at the left wall and stay alive through [1,0,...] rows
+  - i think 128 nodes in hidden layer?
+  - 1 node output, if 0 go left, if 1 go right
+2nd model
+  - game same as above, but model only given the next row and player position as input instead of the whole board
+  - still had impossible [1,1,1,1,1] rows
+  - 512 nodes
+3rd model
+  - currently training
+  - rows cannot be impossible, must have at least one 0 i.e. [1,0,1,1,1]
+    - although not checking if it is possible for a player to have enough moves to survive
+  - 256 nodes in hidden layer
+
 Thursday night plan:
 - [X] buttons on front end start/stop simulation loop
   - [X] continuous until stop button pressed
