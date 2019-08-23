@@ -46,6 +46,13 @@ const statistics = {
     // if an ml model can choose no movement, add here
     percentLeftInput: 0,
     percentRightInput: 0
+  },
+  movement: {
+    total: 0,
+    leftDistance: 0,
+    rightDistance: 0,
+    percentLeftMovement: 0,
+    percentRightMovement: 0
   }
 };
 

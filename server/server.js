@@ -37,6 +37,13 @@ const statistics = {
     // if an ml model can choose no movement, add here
     percentLeftInput: 0,
     percentRightInput: 0
+  },
+  movement: {
+    total: 0,
+    leftDistance: 0,
+    rightDistance: 0,
+    percentLeftMovement: 0,
+    percentRightMovement: 0
   }
 };
 
@@ -233,13 +240,24 @@ const updateBoard = (currentBoard, counter) => {
   return newBoard;
 };
 
+//like above no longer pure because affecting statistics object
 const moveLeft = (currentPosition) => {
-  return (currentPosition === 0) ? 0 : currentPosition - 1;
-}
+  if (currentPosition === 0) {
+    return 0;
+  } else {
+    statistics.movement.leftDistance++;
+    return currentPosition - 1;
+  }
+};
 
 const moveRight = (currentPosition) => {
-  return (currentPosition === (gameConstants.WALL_SIZE - 1)) ? (gameConstants.WALL_SIZE - 1) : currentPosition + 1;
-}
+  if (currentPosition === (gameConstants.WALL_SIZE - 1)) {
+    return gameConstants.WALL_SIZE - 1;
+  } else {
+    statistics.movement.rightDistance++;
+    return currentPosition + 1;
+  }
+};
 
 const playerCollided = (currentBoard, currentPosition) => {
   if (currentBoard[0][currentPosition] === 1) {
@@ -247,7 +265,7 @@ const playerCollided = (currentBoard, currentPosition) => {
   } else {
     return false;
   }
-}
+};
 
 const getAverageFromArray = (array) => {
   const sum = array.reduce((acc, curr) => acc + curr);
@@ -263,6 +281,3 @@ const recalculateInputPercentages = () => {
   statistics.actions.percentLeftInput = statistics.actions.numberOfLeftInputs / statistics.actions.total;
   statistics.actions.percentRightInput = statistics.actions.numberOfRightInputs / statistics.actions.total;
 };
-
-
-// main();
