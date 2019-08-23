@@ -45,16 +45,16 @@ Thursday night plan:
 
 
 currentGameStatistics = {
-    gameSteps: 0,
+    gameSteps: 0, LINE CHART
     tiles: {
-      total: 0,
+      total: 0, TABLE
       open: 0,
       closed: 0,
       percentOpen: 0,
       percentClosed: 0
     },
     actions: {
-      total: 0,
+      total: 0, 
       numberOfLeftInputs: 0,
       numberOfRightInputs: 0,
       // if an ml model can choose no movement, add here

@@ -2,7 +2,8 @@ import React, { Fragment, useState, useEffect } from 'react';
 import Board from './Board';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { updateBoard } from '../actions';
+import { updateBoard, updateStats } from '../actions';
+import LineChart from './LineChart';
 
 const io = require('socket.io-client');
 const SOCKET_PORT = 5000;
@@ -30,16 +31,15 @@ const sendRightInput = () => {
   socket.emit('move-right');
 };
 
-
-
-socket.on('statistics', (data) => {
-  console.log(`received statistics: `, data);
-});
-
-const App = ({ updateBoard, gameLost }) => {
+const App = ({ updateBoard, updateStats, gameLost }) => {
   socket.on('state', (message) => {
     console.log(`received board state: `, message);
     updateBoard(message);
+  });
+
+  socket.on('statistics', (data) => {
+    console.log(`received statistics: `, data);
+    updateStats(data);
   });
 
   //set keypresses to look out for
@@ -53,6 +53,7 @@ const App = ({ updateBoard, gameLost }) => {
       <button onClick={startSimulation}>start simulation</button>
       <button onClick={endSimulation}>end simulation</button>
       <Board />
+      <LineChart />
       {aKey && sendLeftInput()}
       {dKey && sendRightInput()}
       {leftKey && sendLeftInput()}
@@ -100,7 +101,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateBoard }, dispatch);
+  return bindActionCreators({ updateBoard, updateStats }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import dog from '../assets/Dog.gif';
+import downdog from '../assets/DogLyingDown.png';
 
 const CELL_SIZE = 40;
 
@@ -28,6 +29,14 @@ const Cell = ({ x, y, value, hasPlayer }) => {
     border: 1px solid black;
     background-color: ${cellColor};
   `;
+  
+  if (hasPlayer && value === 1) {
+    return (
+      <CellDiv>
+        <img src={downdog} alt='game lost dog' style={{width: width, height: height}} />
+      </CellDiv>
+    )
+  }
 
   if (hasPlayer) {
     return (
