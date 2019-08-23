@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import dog from '../assets/Dog.gif';
 import loseDog from '../assets/DogLyingDown.png';
-import butterflies from '../assets/Butterflies.gif';
 
 const CELL_SIZE = 40;
 
@@ -34,11 +33,7 @@ const Cell = ({ x, y, value, hasPlayer }) => {
   }
 
   if (value === 1) {
-    return (
-      <CellDiv>
-        <img src={butterflies} alt='enemy gif' style={{width: width, height: height}} />
-      </CellDiv>
-    );
+    cellColor = 'turquoise';
   } else {
     cellColor = 'white';
   }
