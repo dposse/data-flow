@@ -57,7 +57,7 @@ const App = ({ updateBoard, gameLost }) => {
       {dKey && sendRightInput()}
       {leftKey && sendLeftInput()}
       {rightKey && sendRightInput()}
-      {gameLost && <div style={{marginTop: '250px'}}>game has been lost</div>}
+      {gameLost && <div style={{marginTop: '200px'}}>game has been lost</div>}
     </Fragment>
   );
 }
