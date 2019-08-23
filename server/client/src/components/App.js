@@ -1,7 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import Board from './Board';
-// import socket from '../socket/socket';
-import styled from 'styled-components';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { updateBoard } from '../actions';
@@ -69,27 +67,30 @@ const useKeyPress = (targetKey) => {
   //set hooks for moving left and right - a, d (from wasd), left, or right
   const [keyPressed, setKeyPressed] = useState(false);
 
-  const downHandler = ({ key }) => {
-    if (key === targetKey) {
-      setKeyPressed(true);
-    }
-  }
-
-  const upHandler = ({ key }) => {
-    if (key === targetKey) {
-      setKeyPressed(false);
-    }
-  }
+  
 
   //event listeners
   useEffect(() => {
+
+    const downHandler = ({ key }) => {
+      if (key === targetKey) {
+        setKeyPressed(true);
+      }
+    }
+  
+    const upHandler = ({ key }) => {
+      if (key === targetKey) {
+        setKeyPressed(false);
+      }
+    }
+
     window.addEventListener('keydown', downHandler);
     window.addEventListener('keyup', upHandler);
     return () => {
       window.removeEventListener('keydown', downHandler);
       window.removeEventListener('keyup', upHandler);
     }
-  }, []); //empty array => effect only run on mount/unmount
+  }, [setKeyPressed, targetKey]); //empty array => effect only run on mount/unmount
 
   return keyPressed;
 }

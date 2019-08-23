@@ -5,15 +5,18 @@ NOTES ON ML MODELS
   - only learned to stay at the left wall and stay alive through [1,0,...] rows
   - i think 128 nodes in hidden layer?
   - 1 node output, if 0 go left, if 1 go right
+  - learning rate 0.05
 2nd model
   - game same as above, but model only given the next row and player position as input instead of the whole board
   - still had impossible [1,1,1,1,1] rows
   - 512 nodes
+  - learning rate 0.05 and 0.03
 3rd model
   - currently training
   - rows cannot be impossible, must have at least one 0 i.e. [1,0,1,1,1]
     - although not checking if it is possible for a player to have enough moves to survive
   - 256 nodes in hidden layer
+  - learning rate 0.03
 
 Thursday night plan:
 - [X] buttons on front end start/stop simulation loop
@@ -35,10 +38,10 @@ Thursday night plan:
     - [X] input right
     - [ ] (maybe input none)
     - [X] percentages
-  - [ ] movement
-    - [ ] amount left
-    - [ ] amount right
-    - [ ] percentages
+  - [X] movement
+    - [X] amount left
+    - [X] amount right
+    - [X] percentages
 
 
 const statistics = {

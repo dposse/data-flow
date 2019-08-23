@@ -14,6 +14,7 @@ let playerPosition;
 let nextAction;
 let endGame;
 
+//SEPARATE THIS OUT INTO A GAME SPECIFIC 
 const statistics = {
   gamesPlayed: 0,
   gameSteps: {
@@ -288,4 +289,5 @@ const updateInputPercentages = () => {
 const updateMovementPercents = () => {
   statistics.movement.percentLeftMovement = statistics.movement.leftDistance / statistics.movement.total;
   statistics.movement.percentRightMovement = statistics.movement.rightDistance / statistics.movement.total;
+
 };
