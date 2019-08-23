@@ -14,6 +14,10 @@ let playerPosition;
 let nextAction;
 let endGame;
 
+const statistics = {
+  gamesPlayed: 0
+};
+
 const initializeGame = () => {
   board = gameConstants.INITIAL_BOARD_STATE;
   playerPosition = gameConstants.INITIAL_PLAYER_POSITION;
@@ -110,7 +114,10 @@ const runGame = (player) => {
           clearInterval(endGame);
           console.log(`collision, game lost`);
           //send board and player state to client with endgame response
-          io.sockets.emit('state', { board, playerPosition, lost: true })
+          io.sockets.emit('state', { board, playerPosition, lost: true });
+          //update and send statistics
+          statistics.gamesPlayed++;
+          io.sockets.emit('statistics', statistics);
           //break out of loop
           resolve();
           return;
@@ -125,6 +132,8 @@ const runGame = (player) => {
         //set nextAction to none every tick so player doesn't just keep moving in one direction
         nextAction = 'none';
         gamestep++;
+        //send statistics to client
+        io.sockets.emit('statistics', statistics);
       }, gameConstants.GAME_TICK);
   });
 }

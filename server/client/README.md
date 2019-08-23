@@ -1,6 +1,6 @@
 Thursday night plan:
-- [ ] buttons on front end start/stop simulation loop
-  - [ ] continuous until stop button pressed
+- [X] buttons on front end start/stop simulation loop
+  - [X] continuous until stop button pressed
 - [ ] sends stats in its own loop - match ticks?
   - [ ] number of games
   - [ ] game ticks - line graph?

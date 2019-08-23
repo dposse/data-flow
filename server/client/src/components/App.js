@@ -1,35 +1,44 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import Board from './Board';
-import socket from '../socket/socket';
+// import socket from '../socket/socket';
 import styled from 'styled-components';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { updateBoard } from '../actions';
 
+const io = require('socket.io-client');
+const SOCKET_PORT = 5000;
 
+const socket = io(`http://localhost:${SOCKET_PORT}`);
+
+//sockets should be handled in relevant components
+const startSimulation = () => {
+  console.log('sending start simulation to server');
+  socket.emit('simulation-start');
+};
+
+const endSimulation = () => {
+  console.log('sending end simulation to server');
+  socket.emit('simulation-end');
+};
+
+const sendLeftInput = () => {
+  console.log(`sending left input to server`);
+  socket.emit('move-left');
+};
+
+const sendRightInput = () => {
+  console.log(`sending right input to server`);
+  socket.emit('move-right');
+};
+
+
+
+socket.on('statistics', (data) => {
+  console.log(`received statistics: `, data);
+});
 
 const App = ({ updateBoard, gameLost }) => {
-  //sockets should be handled in relevant components
-  const startSimulation = () => {
-    console.log('sending start simulation to server');
-    socket.emit('simulation-start');
-  };
-
-  const endSimulation = () => {
-    console.log('sending end simulation to server');
-    socket.emit('simulation-end');
-  };
-
-  const sendLeftInput = () => {
-    console.log(`sending left input to server`);
-    socket.emit('move-left');
-  };
-
-  const sendRightInput = () => {
-    console.log(`sending right input to server`);
-    socket.emit('move-right');
-  };
-
   socket.on('state', (message) => {
     console.log(`received board state: `, message);
     updateBoard(message);
