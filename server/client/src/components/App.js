@@ -67,8 +67,6 @@ const useKeyPress = (targetKey) => {
   //set hooks for moving left and right - a, d (from wasd), left, or right
   const [keyPressed, setKeyPressed] = useState(false);
 
-  
-
   //event listeners
   useEffect(() => {
 
