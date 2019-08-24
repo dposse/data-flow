@@ -14,7 +14,6 @@ export default function (state = INITIAL_BOARD_STATE, action) {
   if (action.error) return action.error;
   switch (action.type) {
     case UPDATE:
-      console.log('data in reducer: ', action.payload.board);
       return action.payload.board;
     default:
       return state;

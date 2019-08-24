@@ -33,12 +33,10 @@ const sendRightInput = () => {
 
 const App = ({ updateBoard, updateStats, gameLost }) => {
   socket.on('state', (message) => {
-    console.log(`received board state: `, message);
     updateBoard(message);
   });
 
   socket.on('statistics', (data) => {
-    console.log(`received statistics: `, data);
     updateStats(data);
   });
 

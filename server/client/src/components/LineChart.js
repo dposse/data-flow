@@ -43,6 +43,7 @@ class LineChart extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    //below updates when new game started - updating every tick too laggy
     if (this.props.gameSteps.length !== prevProps.gameSteps.length) {
       this.updateSeries();
     }
