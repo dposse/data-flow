@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { updateBoard, updateStats } from '../actions';
 import LineChart from './LineChart';
+import Heatmap from './Heatmap';
+import ActionMovementBarChart from './ActionMovementBarChart';
 
 const io = require('socket.io-client');
 const SOCKET_PORT = 5000;
@@ -52,6 +54,9 @@ const App = ({ updateBoard, updateStats, gameLost }) => {
       <button onClick={endSimulation}>end simulation</button>
       <Board />
       <LineChart />
+      <ActionMovementBarChart />
+      {/* heatmap commented out as it is currently not working */}
+      {/* <Heatmap /> */}
       {aKey && sendLeftInput()}
       {dKey && sendRightInput()}
       {leftKey && sendLeftInput()}
