@@ -4,7 +4,7 @@ import Highcharts from 'highcharts';
 import { connect } from 'react-redux';
 
 // need to change when this updates - always shows "1 step" as last game right now
-class LineChart extends Component {
+class GamestepsLineChart extends Component {
   constructor(props) {
     super(props);
 
@@ -85,4 +85,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(LineChart);
+export default connect(mapStateToProps, null)(GamestepsLineChart);

@@ -28,7 +28,8 @@ const initializeGame = () => {
       open: 0,
       closed: 0,
       percentOpen: 0,
-      percentClosed: 0
+      percentClosed: 0,
+      chanceOfTile: gameConstants.CHANCE_OF_TILE
     },
     actions: {
       total: 0,

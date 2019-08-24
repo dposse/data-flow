@@ -1,4 +1,4 @@
-const WALL_SIZE = 5;
+const WALL_SIZE = 10;
 
 let board = [];
 for (let i=0; i<WALL_SIZE; i++) {
@@ -13,5 +13,6 @@ module.exports = {
   WALL_SIZE: WALL_SIZE,
   GAME_TICK: 100,
   INITIAL_BOARD_STATE: board,
-  INITIAL_PLAYER_POSITION: Math.floor(WALL_SIZE/2)
+  INITIAL_PLAYER_POSITION: Math.floor(WALL_SIZE/2),
+  CHANCE_OF_TILE: .5
 };

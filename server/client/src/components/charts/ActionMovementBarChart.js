@@ -20,7 +20,7 @@ class ActionMovementBarChart extends Component {
             'Left',
             'Right'
           ],
-          crosshair: false
+          crosshair: true
         },
         yAxis: {
           min: 0,
