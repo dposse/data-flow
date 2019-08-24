@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
-import { updateStats } from '../actions';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+// need to change when this updates - always shows "1 step" as last game right now
 class LineChart extends Component {
   constructor(props) {
     super(props);
@@ -86,8 +85,4 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  bindActionCreators({ updateStats }, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LineChart);
+export default connect(mapStateToProps, null)(LineChart);
