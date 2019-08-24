@@ -69,7 +69,7 @@ class LineChart extends Component {
     const { chartOptions } = this.state;
 
     return (
-      <div style={{marginTop: '250px', width: '300px'}}>
+      <div style={{marginTop: '250px', width: '400px'}}>
         <HighchartsReact
           highcharts={Highcharts}
           options={chartOptions}

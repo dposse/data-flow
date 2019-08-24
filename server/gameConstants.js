@@ -1,20 +1,17 @@
+const WALL_SIZE = 5;
 
-//middle starting position - 0 leftmost, 4 rightmost positions on 5 tile board
+let board = [];
+for (let i=0; i<WALL_SIZE; i++) {
+  let row = [];
+  for (let j=0; j<WALL_SIZE; j++) {
+    row.push(0);
+  }
+  board.push(row);
+}
 
 module.exports = {
-  WALL_SIZE: 10,
+  WALL_SIZE: WALL_SIZE,
   GAME_TICK: 200,
-  INITIAL_BOARD_STATE: [
-    [0,0,0,0,0,0,0,0,0,0],  
-    [0,0,0,0,0,0,0,0,0,0],  
-    [0,0,0,0,0,0,0,0,0,0],  
-    [0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0]
-  ],
-  INITIAL_PLAYER_POSITION: 5
-}
+  INITIAL_BOARD_STATE: board,
+  INITIAL_PLAYER_POSITION: Math.floor(WALL_SIZE/2)
+};
