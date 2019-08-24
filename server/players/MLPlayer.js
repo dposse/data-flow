@@ -25,7 +25,12 @@ class MLPlayer {
       console.log(currentBoard);
       // set to this.nextAction for consistency
       // flatten board to one array and add player position
-      const tensorArray = [].concat.apply([], currentBoard);
+
+      // const tensorArray = [].concat.apply([], currentBoard);
+
+      //board is 10x10 - get 5x5 to pass in tensor array
+      const tensorArray = [].concat.apply([],this._createMiniBoard(currentBoard, currentPlayerPosition));
+
       // console.log(tensorArray);
       tensorArray.push(currentPlayerPosition);
       // console.log(tensorArray);
@@ -40,13 +45,20 @@ class MLPlayer {
       console.log(logits.dataSync());
       console.log('left prob: ',leftProb.dataSync());
       // console.log(`leftright: `, leftRightProbs.dataSync());
-      if (leftProb.dataSync()[0] === 0) {
+      if (leftProb.dataSync()[0] <= 0) {
         this.nextAction = 'left';
-      } else if (leftProb.dataSync()[0] === 1) {
-        this.nextAction = 'right';
       } else {
-        this.nextAction = 'none';
+        this.nextAction = 'right';
       }
+      // else {
+      //   this.nextAction = 'none';
+      // }
+
+      // if (action > 0) {
+      //   this.playerPosition = this.moveRight(this.playerPosition);
+      // } else {
+      //   this.playerPosition = this.moveLeft(this.playerPosition);
+      // } 
     });    
   }
 
@@ -62,6 +74,34 @@ class MLPlayer {
   stop() {
     console.log(`called player.stop`);
   }
+
+  _createMiniBoard(board, position) {
+    //hacky way for now
+    if (position < 3) {
+      return board.filter((row, index) => {
+        return index < 5;
+      }).map(row => row.slice(0,5));
+    } else if (position > 6) {
+      return board.filter((row, index) => {
+        return index < 5;
+      }).map(row => row.slice(5));
+    } else {
+      return board.filter((row, index) => {
+        return index < 5;
+      }).map(row => row.slice(position-2, position+3));
+    }
+  }
 }
 
 module.exports = MLPlayer;
+
+[0,1,2,3,4,5,6,7,8,9],  
+[1,0,0,0,0,0,0,0,0,0],  
+[2,0,0,0,0,0,0,0,0,0],  
+[3,0,0,0,0,0,0,0,0,0],
+[4,0,0,0,0,0,0,0,0,0],
+[5,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0]
