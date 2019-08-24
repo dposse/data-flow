@@ -20,7 +20,7 @@ class ActionMovementBarChart extends Component {
             'Left',
             'Right'
           ],
-          crosshair: true
+          crosshair: false
         },
         yAxis: {
           min: 0,
@@ -37,14 +37,41 @@ class ActionMovementBarChart extends Component {
         series: [
           {
             name: 'Actions',
-            data: [10,20]
+            data: []
           },
           {
             name: 'Movement',
-            data: [30,40]
+            data: []
           }
         ]
       }
+    }
+  }
+
+  componentDidUpdate(oldProps) {
+    //only update at end of games for performance
+    const newProps = this.props;
+    if (!oldProps.gameLost && newProps.gameLost) {
+      this.setState({
+        chartOptions: {
+          series: [
+            {
+              name: 'Actions',
+              data: [
+                newProps.actions.reduce((acc, curr) => acc + curr.numberOfLeftInputs, 0),
+                newProps.actions.reduce((acc, curr) => acc + curr.numberOfRightInputs, 0)
+              ]
+            },
+            {
+              name: 'Movement',
+              data: [
+                newProps.movement.reduce((acc, curr) => acc + curr.leftDistance, 0),
+                newProps.movement.reduce((acc, curr) => acc + curr.rightDistance, 0)
+              ]
+            }
+          ]
+        }
+      });
     }
   }
 
@@ -52,7 +79,7 @@ class ActionMovementBarChart extends Component {
     const { chartOptions } = this.state;
 
     return (
-      <div>
+      <div style={{width: '400px'}}>
         <HighchartsReact 
           highcharts={Highcharts}
           options={chartOptions}
@@ -65,7 +92,8 @@ class ActionMovementBarChart extends Component {
 function mapStateToProps(state) {
   return {
     actions: state.statistics.map(game => game.actions),
-    movement: state.statistics.map(game => game.movement)
+    movement: state.statistics.map(game => game.movement),
+    gameLost: state.gameLost
   }
 }
 

@@ -11,7 +11,7 @@ for (let i=0; i<WALL_SIZE; i++) {
 
 module.exports = {
   WALL_SIZE: WALL_SIZE,
-  GAME_TICK: 200,
+  GAME_TICK: 100,
   INITIAL_BOARD_STATE: board,
   INITIAL_PLAYER_POSITION: Math.floor(WALL_SIZE/2)
 };
