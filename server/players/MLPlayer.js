@@ -15,7 +15,7 @@ class MLPlayer {
     this.model = await tf.loadLayersModel('file://tensorflow_models/mladventures-v0.json');
     console.log(`loaded model: `, this.model);
     this.nextAction = 'none';
-    this.modelName = 'mladventures-v0';
+    this.modelName = 'mlBot1';
   }
 
   //receive state from game loop, submit next move
@@ -75,7 +75,7 @@ class MLPlayer {
     return this.nextAction;
   }
 
-  getModelName() {
+  getName() {
     return this.modelName;
   }
 

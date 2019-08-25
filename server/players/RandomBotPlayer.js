@@ -1,11 +1,12 @@
 class RandomBotPlayer {
   initialize() {
+    this.nextAction = 'none';
+    this.modelName = 'randomBot';
     //setup model, load
     // this.botLoop = setInterval(() => {
     //   this.randomMove();
     // }, 1000);
     return new Promise((resolve, reject) => {
-      this.nextAction = 'none';
       resolve();
     });
   }
@@ -30,6 +31,10 @@ class RandomBotPlayer {
   //game asks for players move every tick
   getMove() {
     return this.nextAction;
+  }
+
+  getName() {
+    return this.modelName;
   }
 
   stop() {

@@ -17,7 +17,7 @@ class MLPlayer2 {
     this.model = await tf.loadLayersModel('file://tensorflow_models/nextrowonlysize10-onenodeoutput.json');
     console.log(`loaded model: `, this.model);
     this.nextAction = 'none';
-    this.modelName = 'nextrowonlysize10';
+    this.modelName = 'mlBot2';
   }
 
   //receive state from game loop, submit next move
@@ -77,7 +77,7 @@ class MLPlayer2 {
     return this.nextAction;
   }
 
-  getModelName() {
+  getName() {
     return this.modelName;
   }
 
