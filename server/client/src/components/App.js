@@ -26,15 +26,27 @@ const endSimulation = () => {
   socket.emit('simulation-end');
 };
 
-const sendLeftInput = () => {
-  console.log(`sending left input to server`);
-  socket.emit('move-left');
+//send commands to switch bots
+const useRandomBot = () => {
+  console.log(`sending use random bot to server`);
+  socket.emit('use-random-bot');
 };
 
-const sendRightInput = () => {
-  console.log(`sending right input to server`);
-  socket.emit('move-right');
+const useMLBot1 = () => {
+  console.log(`sending use machine learning bot 1 to server`);
+  socket.emit('use-ml-bot-1');
 };
+
+// human movement - not currently used but leaving for the option
+// const sendLeftInput = () => {
+//   console.log(`sending left input to server`);
+//   socket.emit('move-left');
+// };
+
+// const sendRightInput = () => {
+//   console.log(`sending right input to server`);
+//   socket.emit('move-right');
+// };
 
 const App = ({ updateBoard, updateStats, gameLost }) => {
   socket.on('state', (message) => {
@@ -55,7 +67,12 @@ const App = ({ updateBoard, updateStats, gameLost }) => {
     <Container>
       <Row style={{marginTop: '20px'}}>
         <Col>
-          <RunOptions startSimulation={startSimulation} endSimulation={endSimulation} />
+          <RunOptions 
+            startSimulation={startSimulation} 
+            endSimulation={endSimulation} 
+            useRandomBot={useRandomBot}
+            useMLBot1={useMLBot1}
+          />
         </Col>
         <Col>
           <Board />
@@ -77,10 +94,10 @@ const App = ({ updateBoard, updateStats, gameLost }) => {
       
       {/* heatmap commented out as it is currently not working */}
       {/* <Heatmap /> */}
-      {aKey && sendLeftInput()}
+      {/* {aKey && sendLeftInput()}
       {dKey && sendRightInput()}
       {leftKey && sendLeftInput()}
-      {rightKey && sendRightInput()}
+      {rightKey && sendRightInput()} */}
     </Container>
   );
 }

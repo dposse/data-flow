@@ -16,6 +16,8 @@ let board;
 let playerPosition;
 let nextAction;
 let endGame;
+//initialize player to MLBot (1), but can be changed through sockets
+let player = new MLPlayer();
 
 const initializeGame = () => {
   board = gameConstants.INITIAL_BOARD_STATE;
@@ -63,8 +65,6 @@ const main = async () => {
   //not pure function, consider changing
   //needed to reset board/position between games while in continuous simulation loop
   initializeGame();
-  //main doesn't know/care if its bot or human, change player between human/random/ml
-  const player = new MLPlayer();
   await player.initialize();
   await runGame(player);
   player.stop();
@@ -87,6 +87,17 @@ io.on('connection', (socket) => {
   socket.on('simulation-end', () => {
     console.log(`received simulation-end message`);
     simulationRunning = false;
+  });
+
+  //setting bot options
+  socket.on('use-random-bot', () => {
+    console.log(`received use-random-bot message`);
+    player = new RandomBotPlayer();
+  });
+
+  socket.on('use-ml-bot-1', () => {
+    console.log(`received use-ml-bot-1`);
+    player = new MLPlayer();
   });
 
   //movement input from front end

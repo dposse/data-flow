@@ -20,8 +20,9 @@ NOTES ON ML MODELS
 
 
 saturday night notes:
-- [ ] style existing buttons
-- [ ] add buttons to switch between random bot and ml bot
+- [X] style existing buttons
+- [X] add buttons to switch between random bot and ml bot
+  - [ ] backend
 - [ ] slow/medium/fast simulation option (or enter ms)
 - [ ] remove tensorflow stuff from cartpole, add own styling
 - [ ] train with 3 node output layer to simulate left/right/none

@@ -1,5 +1,6 @@
 export const UPDATE = 'update';
 export const UPDATE_STATS = 'update_stats';
+export const SET_BOT = 'set_bot';
 
 export function updateBoard(newState) {
   return {
@@ -13,4 +14,11 @@ export function updateStats(newStats) {
     type: UPDATE_STATS,
     payload: newStats
   }
-}
+};
+
+export function setBot(bot) {
+  return {
+    type: SET_BOT,
+    payload: bot
+  }
+};
