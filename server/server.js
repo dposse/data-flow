@@ -133,6 +133,7 @@ const runGame = (player) => {
         board = updateBoard(board, gamestep);
     
         //move player based on nextAction
+        //add statistics for each action
         switch (player.getMove()) {
           case 'left':
             console.log(`next action set to left`);
