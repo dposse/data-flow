@@ -84,12 +84,10 @@ class TilePieChart extends Component {
     const { chartOptions } = this.state;
 
     return (
-      <div style={{width: '400px'}}>
         <HighchartsReact 
           highcharts={Highcharts}
           options={chartOptions}
         />
-      </div>
     )
   }
 }

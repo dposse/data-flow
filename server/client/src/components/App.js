@@ -3,6 +3,7 @@ import Board from './Board';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { updateBoard, updateStats } from '../actions';
+import { Container, Row, Col } from 'react-bootstrap';
 import GamestepsLineChart from './charts/GamestepsLineChart';
 import Heatmap from './charts/Heatmap';
 import ActionMovementBarChart from './charts/ActionMovementBarChart';
@@ -50,21 +51,36 @@ const App = ({ updateBoard, updateStats, gameLost }) => {
   const rightKey = useKeyPress('ArrowRight');
 
   return (
-    <Fragment>
-      <button onClick={startSimulation}>start simulation</button>
-      <button onClick={endSimulation}>end simulation</button>
-      <Board />
-      <GamestepsLineChart />
-      <ActionMovementBarChart />
-      <TilePieChart />
+    <Container>
+      <Row>
+        <Col></Col>
+        <Col>
+          <button onClick={startSimulation}>start simulation</button>
+          <button onClick={endSimulation}>end simulation</button>
+          <Board />
+        </Col>
+        <Col>{gameLost && <div>game has been lost</div>}</Col>
+      </Row>
+      <Row style={{marginTop: '400px'}}>
+        <Col>
+          <GamestepsLineChart />
+        </Col>
+        <Col>
+          <ActionMovementBarChart />
+        </Col>
+        <Col>
+          <TilePieChart />
+        </Col>
+      </Row>
+      
+      
       {/* heatmap commented out as it is currently not working */}
       {/* <Heatmap /> */}
       {aKey && sendLeftInput()}
       {dKey && sendRightInput()}
       {leftKey && sendLeftInput()}
       {rightKey && sendRightInput()}
-      {gameLost && <div style={{marginTop: '200px'}}>game has been lost</div>}
-    </Fragment>
+    </Container>
   );
 }
 

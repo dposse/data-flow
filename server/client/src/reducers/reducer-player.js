@@ -1,7 +1,7 @@
 import { UPDATE } from '../actions';
 
 const INITIAL_PLAYER_STATE = {
-  position: 2,
+  position: 5,
   onGround: true
 };
 
