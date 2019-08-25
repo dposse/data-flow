@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { updateBoard, updateStats } from '../actions';
 import { Container, Row, Col } from 'react-bootstrap';
+import RunOptions from './RunOptions';
 import GamestepsLineChart from './charts/GamestepsLineChart';
 import Heatmap from './charts/Heatmap';
 import ActionMovementBarChart from './charts/ActionMovementBarChart';
@@ -53,10 +54,10 @@ const App = ({ updateBoard, updateStats, gameLost }) => {
   return (
     <Container>
       <Row style={{marginTop: '20px'}}>
-        <Col></Col>
         <Col>
-          <button onClick={startSimulation}>start simulation</button>
-          <button onClick={endSimulation}>end simulation</button>
+          <RunOptions startSimulation={startSimulation} endSimulation={endSimulation} />
+        </Col>
+        <Col>
           <Board />
         </Col>
         <Col>{gameLost && <div>game has been lost</div>}</Col>
