@@ -5,6 +5,7 @@ const io = require('socket.io')(http);
 const gameConstants = require('./gameConstants');
 const RandomBotPlayer = require('./players/RandomBotPlayer');
 const MLPlayer = require('./players/MLPlayer');
+const MLPlayer2 = require('./players/MLPlayer2');
 
 const PORT = 5000;
 let simulationRunning = false;
@@ -17,7 +18,7 @@ let playerPosition;
 let nextAction;
 let endGame;
 //initialize player to MLBot (1), but can be changed through sockets
-let player = new MLPlayer();
+let player = new MLPlayer2();
 
 const initializeGame = () => {
   board = gameConstants.INITIAL_BOARD_STATE;
@@ -74,7 +75,7 @@ const main = async () => {
 //below should be initialized in human player, leaving for now
 io.on('connection', (socket) => {  
   console.log('user connected');
-  socket.emit('changed-bot', 'machine learning bot 1');
+  socket.emit('changed-bot', 'machine learning bot 2');
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
@@ -101,6 +102,12 @@ io.on('connection', (socket) => {
     console.log(`received use-ml-bot-1`);
     player = new MLPlayer();
     socket.emit('changed-bot', 'machine learning bot 1');
+  });
+
+  socket.on('use-ml-bot-2', () => {
+    console.log(`received use-ml-bot-2`);
+    player = new MLPlayer2();
+    socket.emit('changed-bot', 'machine learning bot 2');
   });
 
   //movement input from front end

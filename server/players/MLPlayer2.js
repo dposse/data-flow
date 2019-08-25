@@ -1,21 +1,23 @@
 const tf = require('@tensorflow/tfjs-node');
 
 /**
- * This model was trained with a 5x5 board and player position passed in as an input tensor.
- * The board in the training simiulation is 2d array, but it is flattened into a 1d array
- *  with player position as the last item in the array, i.e. [0,0,0,...,2]
+ * This model was trained by only passing in a random row of size 10, plus the player position at the end.
+ * 128 nodes in hidden layer
+ * 1 node output layer
+ * .95 discount
+ * .05 learning
  * 
- * Apparently has only learned to always go left, except to avoid a single block i.e. [1,0,0,0,0] it will survive.
- * Usually won't even try to avoid [1,1,0,0,0]
+ * More active than model 1, sometimes loses to [1,0,...] though
+ *  I have seen it get past [1,1,0,...] successfully at least once
  */
 
-class MLPlayer {
+class MLPlayer2 {
   async initialize() {
     //load model from files
-    this.model = await tf.loadLayersModel('file://tensorflow_models/mladventures-v0.json');
+    this.model = await tf.loadLayersModel('file://tensorflow_models/nextrowonlysize10-onenodeoutput.json');
     console.log(`loaded model: `, this.model);
     this.nextAction = 'none';
-    this.modelName = 'mladventures-v0';
+    this.modelName = 'nextrowonlysize10';
   }
 
   //receive state from game loop, submit next move
@@ -36,12 +38,12 @@ class MLPlayer {
 
       // const tensorArray = [].concat.apply([], currentBoard);
 
-      //board is 10x10 - get 5x5 to pass in tensor array
-      const tensorArray = [].concat.apply([],this._createMiniBoard(currentBoard, currentPlayerPosition));
+      //this model takes one row of size 10
+      const tensorArray = [].concat.apply([], this._getNextRow(currentBoard));
 
-      // console.log(tensorArray);
+      console.log(tensorArray);
       tensorArray.push(currentPlayerPosition);
-      // console.log(tensorArray);
+      console.log(tensorArray);
       // console.log('hi ', tensorArray);
 
       const logits = this.model.predict(tf.tensor2d([tensorArray]));
@@ -53,10 +55,10 @@ class MLPlayer {
       console.log(logits.dataSync());
       console.log('left prob: ',leftProb.dataSync());
       // console.log(`leftright: `, leftRightProbs.dataSync());
-      if (leftProb.dataSync()[0] <= 0) {
-        this.nextAction = 'left';
-      } else {
+      if (logits.dataSync()[0] < 1) {
         this.nextAction = 'right';
+      } else {
+        this.nextAction = 'left';
       }
       // else {
       //   this.nextAction = 'none';
@@ -83,22 +85,9 @@ class MLPlayer {
     console.log(`called player.stop`);
   }
 
-  _createMiniBoard(board, position) {
-    //hacky way for now
-    if (position < 3) {
-      return board.filter((row, index) => {
-        return index < 5;
-      }).map(row => row.slice(0,5));
-    } else if (position > 6) {
-      return board.filter((row, index) => {
-        return index < 5;
-      }).map(row => row.slice(5));
-    } else {
-      return board.filter((row, index) => {
-        return index < 5;
-      }).map(row => row.slice(position-2, position+3));
-    }
+  _getNextRow(board) {
+    return board.slice(1,2);
   }
 }
 
-module.exports = MLPlayer;
+module.exports = MLPlayer2;
