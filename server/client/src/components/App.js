@@ -52,7 +52,7 @@ const App = ({ updateBoard, updateStats, gameLost }) => {
 
   return (
     <Container>
-      <Row>
+      <Row style={{marginTop: '20px'}}>
         <Col></Col>
         <Col>
           <button onClick={startSimulation}>start simulation</button>
@@ -61,7 +61,7 @@ const App = ({ updateBoard, updateStats, gameLost }) => {
         </Col>
         <Col>{gameLost && <div>game has been lost</div>}</Col>
       </Row>
-      <Row style={{marginTop: '400px'}}>
+      <Row style={{marginTop: '420px'}}>
         <Col>
           <GamestepsLineChart />
         </Col>

@@ -18,10 +18,19 @@ NOTES ON ML MODELS
   - 256 nodes in hidden layer
   - learning rate 0.03
 
+
+saturday night notes:
+- [ ] style existing buttons
+- [ ] add buttons to switch between random bot and ml bot
+- [ ] slow/medium/fast simulation option (or enter ms)
+- [ ] remove tensorflow stuff from cartpole, add own styling
+- [ ] train with 3 node output layer to simulate left/right/none
+  - [ ] move to 5 node output layer for 2 left/1 left/none/1 right/2 right
+
+
 Thursday night plan:
 - [X] buttons on front end start/stop simulation loop
   - [X] continuous until stop button pressed
-- [ ] sends stats in its own loop - match ticks? - CURRENTLY sent in game loop
   - [X] number of games
   - [X] game steps - line graph?
     - [X] total
