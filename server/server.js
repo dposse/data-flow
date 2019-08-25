@@ -197,6 +197,7 @@ const runGame = (player) => {
           io.sockets.emit('state', { board, playerPosition, lost: true });
           //update and send statistics
           io.sockets.emit('statistics', statistics);
+          io.sockets.emit('bot-stats', playerStatistics);
           //break out of loop
           resolve();
           return;
