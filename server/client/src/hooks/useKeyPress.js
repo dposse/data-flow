@@ -30,3 +30,21 @@ const useKeyPress = (targetKey) => {
 }
 
 export default useKeyPress;
+
+// example of using hook below
+  // //set keypresses to look out for - left here in case i allow human players
+  // const aKey = useKeyPress('a');
+  // const dKey = useKeyPress('d');
+  // const leftKey = useKeyPress('ArrowLeft');
+  // const rightKey = useKeyPress('ArrowRight');
+
+  // human movement - not currently used but leaving for the option
+// const sendLeftInput = () => {
+//   console.log(`sending left input to server`);
+//   socket.emit('move-left');
+// };
+
+// const sendRightInput = () => {
+//   console.log(`sending right input to server`);
+//   socket.emit('move-right');
+// };

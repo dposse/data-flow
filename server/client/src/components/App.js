@@ -9,75 +9,60 @@ import PlayerInformation from './PlayerInformation';
 import GamestepsLineChart from './charts/GamestepsLineChart';
 import ActionMovementBarChart from './charts/ActionMovementBarChart';
 import TilePieChart from './charts/TilePieChart';
-
-const io = require('socket.io-client');
-const SOCKET_PORT = 5000;
-
-const socket = io(`http://localhost:${SOCKET_PORT}`);
-
-//sockets should be handled in relevant components
-const startSimulation = () => {
-  console.log('sending start simulation to server');
-  socket.emit('simulation-start');
-};
-
-const endSimulation = () => {
-  console.log('sending end simulation to server');
-  socket.emit('simulation-end');
-};
-
-//send commands to switch bots
-const useRandomBot = () => {
-  console.log(`sending use random bot to server`);
-  socket.emit('use-random-bot');
-};
-
-const useMLBot1 = () => {
-  console.log(`sending use machine learning bot 1 to server`);
-  socket.emit('use-ml-bot-1');
-};
-
-const useMLBot2 = () => {
-  console.log(`sending use machine learning bot 2 to server`);
-  socket.emit('use-ml-bot-2');
-};
-
-// human movement - not currently used but leaving for the option
-// const sendLeftInput = () => {
-//   console.log(`sending left input to server`);
-//   socket.emit('move-left');
-// };
-
-// const sendRightInput = () => {
-//   console.log(`sending right input to server`);
-//   socket.emit('move-right');
-// };
+import useSocket from '../hooks/useSocket';
 
 const App = ({ updateBoard, updateStats, setBot, clearCharts, gameLost }) => {
-  socket.on('state', (message) => {
-    updateBoard(message);
-  });
+  const [socket] = useSocket('http://localhost:5000');
 
-  socket.on('statistics', (data) => {
-    console.log(data);
-    updateStats(data);
-  });
+  socket.connect();
 
-  socket.on('bot-stats', (data) => {
-    console.log(data);
-  });
+  //sockets should be handled in relevant components
+  const startSimulation = () => {
+    console.log('sending start simulation to server');
+    socket.emit('simulation-start');
+  };
 
-  socket.on('changed-bot', (bot) => {
-    setBot(bot);
-    //want to clear stats for performance
-    // clearCharts();
-  });
+  const endSimulation = () => {
+    console.log('sending end simulation to server');
+    socket.emit('simulation-end');
+  };
 
-  // //set keypresses to look out for - left here in case i allow human players
-  // const aKey = useKeyPress('a');
-  // const dKey = useKeyPress('d');
-  // const leftKey = useKeyPress('ArrowLeft');
-  // const rightKey = useKeyPress('ArrowRight');
+  //send commands to switch bots
+  const useRandomBot = () => {
+    console.log(`sending use random bot to server`);
+    socket.emit('use-random-bot');
+  };
+
+  const useMLBot1 = () => {
+    console.log(`sending use machine learning bot 1 to server`);
+    socket.emit('use-ml-bot-1');
+  };
+
+  const useMLBot2 = () => {
+    console.log(`sending use machine learning bot 2 to server`);
+    socket.emit('use-ml-bot-2');
+  };
+
+  useEffect(() => {
+    socket.on('state', (message) => {
+      updateBoard(message);
+    });
+  
+    socket.on('statistics', (data) => {
+      console.log(data);
+      updateStats(data);
+    });
+  
+    socket.on('bot-stats', (data) => {
+      console.log(data);
+    });
+  
+    socket.on('changed-bot', (bot) => {
+      setBot(bot);
+      //want to clear stats for performance
+      // clearCharts();
+    });
+  }, 0);
 
   return (
     <Container>
@@ -109,20 +94,9 @@ const App = ({ updateBoard, updateStats, setBot, clearCharts, gameLost }) => {
           <TilePieChart />
         </Col>
       </Row>
-      
-      
-      {/* heatmap commented out as it is currently not working */}
-      {/* <Heatmap /> */}
-      {/* {aKey && sendLeftInput()}
-      {dKey && sendRightInput()}
-      {leftKey && sendLeftInput()}
-      {rightKey && sendRightInput()} 
-      {gameLost && <div>game has been lost</div>}*/}
     </Container>
   );
 }
-
-
 
 function mapStateToProps(state) {
   return {
