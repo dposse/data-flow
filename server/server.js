@@ -74,6 +74,7 @@ const main = async () => {
 //below should be initialized in human player, leaving for now
 io.on('connection', (socket) => {  
   console.log('user connected');
+  socket.emit('changed-bot', 'machine learning bot 1');
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
@@ -93,11 +94,13 @@ io.on('connection', (socket) => {
   socket.on('use-random-bot', () => {
     console.log(`received use-random-bot message`);
     player = new RandomBotPlayer();
+    socket.emit('changed-bot', 'random bot');
   });
 
   socket.on('use-ml-bot-1', () => {
     console.log(`received use-ml-bot-1`);
     player = new MLPlayer();
+    socket.emit('changed-bot', 'machine learning bot 1');
   });
 
   //movement input from front end

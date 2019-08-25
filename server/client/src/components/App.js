@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import Board from './Board';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { updateBoard, updateStats } from '../actions';
+import { updateBoard, updateStats, setBot } from '../actions';
 import { Container, Row, Col } from 'react-bootstrap';
 import RunOptions from './RunOptions';
 import GamestepsLineChart from './charts/GamestepsLineChart';
@@ -48,13 +48,17 @@ const useMLBot1 = () => {
 //   socket.emit('move-right');
 // };
 
-const App = ({ updateBoard, updateStats, gameLost }) => {
+const App = ({ updateBoard, updateStats, setBot, gameLost }) => {
   socket.on('state', (message) => {
     updateBoard(message);
   });
 
   socket.on('statistics', (data) => {
     updateStats(data);
+  });
+
+  socket.on('changed-bot', (bot) => {
+    setBot(bot);
   });
 
   //set keypresses to look out for
@@ -140,7 +144,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateBoard, updateStats }, dispatch);
+  return bindActionCreators({ updateBoard, updateStats, setBot }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
