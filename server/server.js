@@ -11,6 +11,32 @@ const PORT = 5000;
 let simulationRunning = false;
 
 const statistics = [];
+const playerStatistics = {
+  randomBot: {
+    steps: 0,
+    tilesSeen: 0,
+    movement: {
+      leftDistance: 0,
+      rightDistance: 0
+    }
+  },
+  mlBot1: {
+    steps: 0,
+    tilesSeen: 0,
+    movement: {
+      leftDistance: 0,
+      rightDistance: 0
+    }
+  },
+  mlBot2: {
+    steps: 0,
+    tilesSeen: 0,
+    movement: {
+      leftDistance: 0,
+      rightDistance: 0
+    }
+  }
+};
 let currentGameStatistics;
 
 let board;
@@ -18,7 +44,7 @@ let playerPosition;
 let nextAction;
 let endGame;
 //initialize player to MLBot (1), but can be changed through sockets
-let player = new MLPlayer2();
+let player = new MLPlayer();
 
 const initializeGame = () => {
   board = gameConstants.INITIAL_BOARD_STATE;
@@ -75,7 +101,7 @@ const main = async () => {
 //below should be initialized in human player, leaving for now
 io.on('connection', (socket) => {  
   console.log('user connected');
-  socket.emit('changed-bot', 'machine learning bot 2');
+  socket.emit('changed-bot', 'machine learning bot');
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });

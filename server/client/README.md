@@ -53,6 +53,32 @@ Thursday night plan:
     - [X] amount right
     - [X] percentages
 
+const playerStatistics = {
+  randomBot: {
+    steps: 0,
+    tilesSeen: 0,
+    movement: {
+      leftDistance: 0,
+      rightDistance: 0
+    }
+  },
+  mlBot1: {
+    steps: 0,
+    tilesSeen: 0,
+    movement: {
+      leftDistance: 0,
+      rightDistance: 0
+    }
+  },
+  mlBot2: {
+    steps: 0,
+    tilesSeen: 0,
+    movement: {
+      leftDistance: 0,
+      rightDistance: 0
+    }
+  }
+};
 
 currentGameStatistics = {
     gameSteps: 0, LINE CHART

@@ -1,12 +1,12 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Board from './Board';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { updateBoard, updateStats, setBot } from '../actions';
+import { updateBoard, updateStats, setBot, clearCharts } from '../actions';
 import { Container, Row, Col } from 'react-bootstrap';
 import RunOptions from './RunOptions';
+import PlayerInformation from './PlayerInformation';
 import GamestepsLineChart from './charts/GamestepsLineChart';
-import Heatmap from './charts/Heatmap';
 import ActionMovementBarChart from './charts/ActionMovementBarChart';
 import TilePieChart from './charts/TilePieChart';
 
@@ -37,6 +37,11 @@ const useMLBot1 = () => {
   socket.emit('use-ml-bot-1');
 };
 
+const useMLBot2 = () => {
+  console.log(`sending use machine learning bot 2 to server`);
+  socket.emit('use-ml-bot-2');
+};
+
 // human movement - not currently used but leaving for the option
 // const sendLeftInput = () => {
 //   console.log(`sending left input to server`);
@@ -48,7 +53,7 @@ const useMLBot1 = () => {
 //   socket.emit('move-right');
 // };
 
-const App = ({ updateBoard, updateStats, setBot, gameLost }) => {
+const App = ({ updateBoard, updateStats, setBot, clearCharts, gameLost }) => {
   socket.on('state', (message) => {
     updateBoard(message);
   });
@@ -59,13 +64,15 @@ const App = ({ updateBoard, updateStats, setBot, gameLost }) => {
 
   socket.on('changed-bot', (bot) => {
     setBot(bot);
+    //want to clear stats for performance
+    // clearCharts();
   });
 
-  //set keypresses to look out for
-  const aKey = useKeyPress('a');
-  const dKey = useKeyPress('d');
-  const leftKey = useKeyPress('ArrowLeft');
-  const rightKey = useKeyPress('ArrowRight');
+  // //set keypresses to look out for - left here in case i allow human players
+  // const aKey = useKeyPress('a');
+  // const dKey = useKeyPress('d');
+  // const leftKey = useKeyPress('ArrowLeft');
+  // const rightKey = useKeyPress('ArrowRight');
 
   return (
     <Container>
@@ -76,14 +83,17 @@ const App = ({ updateBoard, updateStats, setBot, gameLost }) => {
             endSimulation={endSimulation} 
             useRandomBot={useRandomBot}
             useMLBot1={useMLBot1}
+            useMLBot2={useMLBot2}
           />
         </Col>
         <Col>
           <Board />
         </Col>
-        <Col>{gameLost && <div>game has been lost</div>}</Col>
+        <Col>
+          <PlayerInformation />
+        </Col>
       </Row>
-      <Row style={{marginTop: '420px'}}>
+      <Row style={{marginTop: '300px'}}>
         <Col>
           <GamestepsLineChart />
         </Col>
@@ -101,7 +111,8 @@ const App = ({ updateBoard, updateStats, setBot, gameLost }) => {
       {/* {aKey && sendLeftInput()}
       {dKey && sendRightInput()}
       {leftKey && sendLeftInput()}
-      {rightKey && sendRightInput()} */}
+      {rightKey && sendRightInput()} 
+      {gameLost && <div>game has been lost</div>}*/}
     </Container>
   );
 }
@@ -144,7 +155,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateBoard, updateStats, setBot }, dispatch);
+  return bindActionCreators({ updateBoard, updateStats, setBot, clearCharts }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

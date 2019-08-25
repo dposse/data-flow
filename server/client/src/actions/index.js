@@ -1,6 +1,7 @@
 export const UPDATE = 'update';
 export const UPDATE_STATS = 'update_stats';
 export const SET_BOT = 'set_bot';
+export const CLEAR_CHARTS = 'clear_charts';
 
 export function updateBoard(newState) {
   return {
@@ -22,3 +23,11 @@ export function setBot(bot) {
     payload: bot
   }
 };
+
+export function clearCharts() {
+  console.log(`clear charts action`);
+  return {
+    type: CLEAR_CHARTS,
+    payload: null
+  }
+}

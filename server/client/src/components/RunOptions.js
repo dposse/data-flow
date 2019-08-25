@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-const RunOptions = ({ startSimulation, endSimulation, useRandomBot, useMLBot1, currentBot }) => (
+const RunOptions = ({ startSimulation, endSimulation, useRandomBot, useMLBot1, useMLBot2, currentBot }) => (
   <Fragment>
     <ButtonToolbar>
       <StyledButton size='sm' onClick={startSimulation} 
@@ -23,6 +23,9 @@ const RunOptions = ({ startSimulation, endSimulation, useRandomBot, useMLBot1, c
       <StyledButton size='sm' onClick={useMLBot1}>
         Use Machine Learning Bot 1
       </StyledButton>
+      <StyledButton size='sm' onClick={useMLBot2}>
+        Use Machine Learning Bot 2
+      </StyledButton>
     </ButtonToolbar>
   </Fragment>
 );
@@ -30,6 +33,8 @@ const RunOptions = ({ startSimulation, endSimulation, useRandomBot, useMLBot1, c
 const StyledButton = styled(Button)`
   background-color: rgb(124, 181, 236);
   border: none;
+  margin-top: 5px;
+  margin-right: 5px;
 `;
 
 function mapStateToProps(state) {
