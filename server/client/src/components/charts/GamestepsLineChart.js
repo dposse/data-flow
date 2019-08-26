@@ -91,7 +91,8 @@ class GamestepsLineChart extends Component {
 
 function mapStateToProps(state) {
   return {
-    gameSteps: state.statistics.map(game => game.gameSteps)
+    gameSteps: state.statistics.map(game => game.gameSteps),
+    gameLost: state.gameLost
   }
 }
 
