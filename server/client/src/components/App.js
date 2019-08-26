@@ -94,7 +94,7 @@ const App = ({ updateBoard, updateStats, updateLastMove, updateBotStats, setBot,
           <SpiderChart />
         </Col>
       </Row>
-      <Row>
+      <Row style={{marginLeft: '1px', marginRight: '1px', paddingTop: '10px', marginTop: '20px', backgroundColor: 'white', height: '430px'}}>
         <Col>
           <CurrentGamestep />
         </Col>
@@ -105,7 +105,7 @@ const App = ({ updateBoard, updateStats, updateLastMove, updateBotStats, setBot,
           <CurrentGameTilePieChart />
         </Col>
       </Row>
-      <Row style={{marginLeft: '1px', marginRight: '1px', paddingTop: '20px', marginTop: '50px', backgroundColor: 'white', height: '430px'}}>
+      <Row style={{marginLeft: '1px', marginRight: '1px', marginBottom: '20px', paddingTop: '20px', marginTop: '20px', backgroundColor: 'white', height: '430px'}}>
         <Col>
           <GamestepsLineChart />
         </Col>

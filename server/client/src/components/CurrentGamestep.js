@@ -4,12 +4,28 @@ import { connect } from 'react-redux';
 
 const CurrentGamestep = ({ gamestep }) => {
   return (
-    <Gamestep>Current game step:  {gamestep}</Gamestep>
+    <Wrapper>
+      <Title>Current game step</Title>
+      <Number>{gamestep}</Number>
+    </Wrapper>
   )
 };
 
-const Gamestep = styled.div`
-  color: white;
+const Wrapper = styled.div`
+  text-align: center;
+  color: #333333;
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  padding-top: 5px;
+`;
+
+const Title = styled.div`
+  font-size: 18px;
+`;
+
+const Number = styled.div`
+  margin-top: 40px;
+  font-size: 180px;
 `;
 
 function mapStateToProps(state) {
