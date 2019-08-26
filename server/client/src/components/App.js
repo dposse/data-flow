@@ -7,6 +7,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Title from './Title';
 import RunOptions from './RunOptions';
 import StreamOutput from './StreamOutput';
+import CurrentGamestep from './CurrentGamestep';
 import GamestepsLineChart from './charts/GamestepsLineChart';
 import ActionMovementBarChart from './charts/ActionMovementBarChart';
 import TilePieChart from './charts/TilePieChart';
@@ -90,6 +91,13 @@ const App = ({ updateBoard, updateStats, updateLastMove, updateBotStats, setBot,
         <Col>
           <SpiderChart />
         </Col>
+      </Row>
+      <Row>
+        <Col>
+          <CurrentGamestep />
+        </Col>
+        <Col></Col>
+        <Col></Col>
       </Row>
       <Row style={{marginLeft: '1px', marginRight: '1px', paddingTop: '20px', marginTop: '50px', backgroundColor: 'white', height: '430px'}}>
         <Col>

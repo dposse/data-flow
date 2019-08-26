@@ -18,7 +18,7 @@ class TilePieChart extends Component {
           animation: false
         },
         title: {
-          text: 'Open and Closed Tiles'
+          text: 'Total Open and Closed Tiles'
         },
         tooltip: {
           pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -66,7 +66,7 @@ class TilePieChart extends Component {
     const newProps = this.props;
     //only update at end of games for performance
     // now updating every tick as per Sean
-    if (newProps !== oldProps) {
+    if (!oldProps.gameLost && newProps.gameLost) {
       this.setState({
         chartOptions: {
           series: [

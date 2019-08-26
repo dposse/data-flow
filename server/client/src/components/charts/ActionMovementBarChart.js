@@ -17,7 +17,7 @@ class ActionMovementBarChart extends Component {
           animation: false
         },
         title: {
-          text: 'Actions and Movements'
+          text: 'Total Actions and Movements'
         },
         xAxis: {
           categories: [
@@ -61,7 +61,7 @@ class ActionMovementBarChart extends Component {
     //only update at end of games for performance
     // now updating every tick as per Sean
     const newProps = this.props;
-    if (newProps !== oldProps) {
+    if (!oldProps.gameLost && newProps.gameLost) {
       this.setState({
         chartOptions: {
           series: [

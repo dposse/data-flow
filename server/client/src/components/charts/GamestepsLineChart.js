@@ -18,7 +18,7 @@ class GamestepsLineChart extends Component {
           animation: false
         },
         title: {
-          text: 'Steps per game'
+          text: 'Total Steps per Game'
         },
         xAxis: {
           categories: [],
@@ -52,10 +52,10 @@ class GamestepsLineChart extends Component {
     };
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(oldProps) {
     //below updates when new game started - updating every tick too laggy
     // now testing updating every tick as per Sean's suggestion
-    if (this.props !== prevProps) {
+    if (!oldProps.gameLost && this.props.gameLost) {
       this.updateSeries();
     }
   }
