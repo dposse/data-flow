@@ -6,7 +6,7 @@ import { updateBoard, updateStats, updateLastMove, updateBotStats, setBot, clear
 import { Container, Row, Col } from 'react-bootstrap';
 import Title from './Title';
 import RunOptions from './RunOptions';
-import PlayerInformation from './PlayerInformation';
+import StreamOutput from './StreamOutput';
 import GamestepsLineChart from './charts/GamestepsLineChart';
 import ActionMovementBarChart from './charts/ActionMovementBarChart';
 import TilePieChart from './charts/TilePieChart';
@@ -82,6 +82,7 @@ const App = ({ updateBoard, updateStats, updateLastMove, updateBotStats, setBot,
             useMLBot1={useMLBot1}
             useMLBot2={useMLBot2}
           />
+          <StreamOutput />
         </Col>
         <Col>
           <Board />
