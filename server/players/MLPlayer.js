@@ -11,11 +11,14 @@ const tf = require('@tensorflow/tfjs-node');
 
 class MLPlayer {
   async initialize() {
-    //load model from files
-    this.model = await tf.loadLayersModel('file://tensorflow_models/mladventures-v0.json');
-    console.log(`loaded model: `, this.model);
-    this.nextAction = 'none';
-    this.modelName = 'mlBot1';
+    return new Promise(async (resolve, reject) => {
+      //load model from files
+      this.model = await tf.loadLayersModel('file://tensorflow_models/mladventures-v0.json');
+      console.log(`loaded model: `, this.model);
+      this.nextAction = 'none';
+      this.modelName = 'mlBot1';
+      resolve();
+    });
   }
 
   //receive state from game loop, submit next move

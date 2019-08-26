@@ -10,11 +10,13 @@ class SpiderChart extends Component {
     this.state = {
       chartOptions: {
         chart: {
-          polar: true,
-          type: 'line'
+          polar: true
         },
         title: {
           text: 'Individual Bot Performance'
+        },
+        pane: {
+          size: '80%'
         },
         xAxis: {
           categories: ['Steps', 'Movement right', 'Tiles Seen', 'Movement Left'],
