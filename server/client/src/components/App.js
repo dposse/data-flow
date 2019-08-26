@@ -9,6 +9,7 @@ import RunOptions from './RunOptions';
 import StreamOutput from './StreamOutput';
 import CurrentGamestep from './CurrentGamestep';
 import CurrentGameActionMovementBarChart from './charts/CurrentGameActionMovementBarChart';
+import CurrentGameTilePieChart from './charts/CurrentGameTilePieChart';
 import GamestepsLineChart from './charts/GamestepsLineChart';
 import ActionMovementBarChart from './charts/ActionMovementBarChart';
 import TilePieChart from './charts/TilePieChart';
@@ -100,7 +101,9 @@ const App = ({ updateBoard, updateStats, updateLastMove, updateBotStats, setBot,
         <Col>
           <CurrentGameActionMovementBarChart />
         </Col>
-        <Col></Col>
+        <Col>
+          <CurrentGameTilePieChart />
+        </Col>
       </Row>
       <Row style={{marginLeft: '1px', marginRight: '1px', paddingTop: '20px', marginTop: '50px', backgroundColor: 'white', height: '430px'}}>
         <Col>
