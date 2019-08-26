@@ -86,10 +86,10 @@ const App = ({ updateBoard, updateStats, updateBotStats, setBot, clearCharts, ga
           <Board />
         </Col>
         <Col>
-          {/* <SpiderChart /> */}
+          <SpiderChart />
         </Col>
       </Row>
-      <Row style={{marginLeft: '1px', marginRight: '1px', paddingTop: '20px', marginTop: '300px', backgroundColor: 'white', height: '430px'}}>
+      <Row style={{marginLeft: '1px', marginRight: '1px', paddingTop: '20px', marginTop: '50px', backgroundColor: 'white', height: '430px'}}>
         <Col>
           <GamestepsLineChart />
         </Col>

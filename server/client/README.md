@@ -53,6 +53,8 @@ Thursday night plan:
     - [X] amount right
     - [X] percentages
 
+[steps, movement right, tiles seen, movement left]
+
 const playerStatistics = {
   randomBot: {
     steps: 0,
