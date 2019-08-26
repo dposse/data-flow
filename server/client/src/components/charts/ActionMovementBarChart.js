@@ -79,7 +79,7 @@ class ActionMovementBarChart extends Component {
     const { chartOptions } = this.state;
 
     return (
-        <HighchartsReact 
+        <HighchartsReact
           highcharts={Highcharts}
           options={chartOptions}
         />

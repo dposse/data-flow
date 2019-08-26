@@ -217,6 +217,7 @@ const runGame = (player) => {
         updateTilePercents();
         updateMovementPercents();
         currentGameStatistics.actions.total++;
+        playerStatistics[player.getName()].steps = gamestep;
         //send statistics to client
         io.sockets.emit('statistics', statistics);
       }, gameConstants.GAME_TICK);

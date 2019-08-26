@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { updateBoard, updateStats, setBot, clearCharts } from '../actions';
 import { Container, Row, Col } from 'react-bootstrap';
+import Title from './Title';
 import RunOptions from './RunOptions';
 import PlayerInformation from './PlayerInformation';
 import GamestepsLineChart from './charts/GamestepsLineChart';
@@ -12,6 +13,8 @@ import TilePieChart from './charts/TilePieChart';
 import useSocket from '../hooks/useSocket';
 
 const App = ({ updateBoard, updateStats, setBot, clearCharts, gameLost }) => {
+  document.body.style.backgroundColor = '#7cacec';
+  
   const [socket] = useSocket('http://localhost:5000');
 
   socket.connect();
@@ -55,6 +58,7 @@ const App = ({ updateBoard, updateStats, setBot, clearCharts, gameLost }) => {
   
     socket.on('bot-stats', (data) => {
       console.log(data);
+
     });
   
     socket.on('changed-bot', (bot) => {
@@ -65,9 +69,10 @@ const App = ({ updateBoard, updateStats, setBot, clearCharts, gameLost }) => {
   }, 0);
 
   return (
-    <Container>
+    <Container fluid={true}>
       <Row style={{marginTop: '20px'}}>
         <Col>
+          {/* <Title /> */}
           <RunOptions 
             startSimulation={startSimulation} 
             endSimulation={endSimulation} 
@@ -83,7 +88,7 @@ const App = ({ updateBoard, updateStats, setBot, clearCharts, gameLost }) => {
           <PlayerInformation />
         </Col>
       </Row>
-      <Row style={{marginTop: '300px'}}>
+      <Row style={{paddingTop: '20px', marginTop: '300px', backgroundColor: 'white', height: '450px'}}>
         <Col>
           <GamestepsLineChart />
         </Col>
