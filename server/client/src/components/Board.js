@@ -1,28 +1,24 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Cell from './Cell';
 import styled from 'styled-components';
 
 const CELL_SIZE = 40;
 const WIDTH = 400;
 const HEIGHT = 400;
-//using temp array to test frontend
-//replace with redux store and mapStateToProps
-const tempCellsArray = [];
-for (let i=0; i<10; i++) {
-  let innerArray = [];
-  for (let j=0; j<10; j++) {
-    innerArray.push(0);
-  }
-  tempCellsArray.push(innerArray);
-}
 
-const Board = () => {
+
+const Board = ({ board, playerPosition }) => {
   return (
     <BoardDiv>
-      {console.log(tempCellsArray)}
-      {tempCellsArray.map((row, rowIndex) => {
+      {/* {console.log(tempCellsArray)} */}
+      {board.map((row, rowIndex) => {
         return row.map((cell, colIndex) => {
-          return <Cell x={colIndex} y={rowIndex} key={`${colIndex},${rowIndex}`} />
+          if (rowIndex === 0 && playerPosition === colIndex) {
+            return <Cell x={colIndex} y={rowIndex} key={`${colIndex},${rowIndex}`} hasPlayer={true} />
+          } else {
+            return <Cell x={colIndex} y={rowIndex} key={`${colIndex},${rowIndex}`} hasPlayer={false} />
+          }
         });
       })}
     </BoardDiv>
@@ -37,4 +33,11 @@ const BoardDiv = styled.div`
   margin: 0 auto;
 `;
 
-export default Board;
+function mapStateToProps(state) {
+  return {
+    board: state.board,
+    playerPosition: state.player.position
+  }
+}
+
+export default connect(mapStateToProps, null)(Board);
