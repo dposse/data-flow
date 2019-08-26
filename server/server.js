@@ -11,6 +11,9 @@ const MLPlayer3 = require('./players/MLPlayer3');
 const PORT = 5000;
 let simulationRunning = false;
 
+//initialize player to MLBot (1), but can be changed through sockets
+let player = new MLPlayer();
+
 const statistics = [];
 const playerStatistics = {
   randomBot: {
@@ -44,8 +47,7 @@ let board;
 let playerPosition;
 let nextAction;
 let endGame;
-//initialize player to MLBot (1), but can be changed through sockets
-let player = new MLPlayer3();
+
 
 const initializeGame = () => {
   board = gameConstants.INITIAL_BOARD_STATE;
@@ -102,7 +104,7 @@ const main = async () => {
 //below should be initialized in human player, leaving for now
 io.on('connection', (socket) => {  
   console.log('user connected');
-  socket.emit('changed-bot', 'machine learning bot 3');
+  socket.emit('changed-bot', 'machine learning bot 1');
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
@@ -218,8 +220,7 @@ const runGame = (player) => {
         updateTilePercents();
         updateMovementPercents();
         currentGameStatistics.actions.total++;
-        console.log(playerStatistics);
-        console.log(playerStatistics[player.getName()]);
+        playerStatistics[player.getName()].steps = gamestep;
         //send statistics to client
         io.sockets.emit('statistics', statistics);
       }, gameConstants.GAME_TICK);
@@ -271,6 +272,7 @@ const updateBoard = (currentBoard, counter) => {
         currentGameStatistics.tiles.open++;
       } else if (tile === 1) { //adding if here in case adding new tiles in the future
         currentGameStatistics.tiles.closed++;
+        playerStatistics[player.getName()].tilesSeen++;
       }
     });
   } else {
@@ -288,6 +290,7 @@ const moveLeft = (currentPosition) => {
   } else {
     currentGameStatistics.movement.total++;
     currentGameStatistics.movement.leftDistance++;
+    playerStatistics[player.getName()].movement.leftDistance++;
     return currentPosition - 1;
   }
 };
@@ -298,6 +301,7 @@ const moveRight = (currentPosition) => {
   } else {
     currentGameStatistics.movement.total++;
     currentGameStatistics.movement.rightDistance++;
+    playerStatistics[player.getName()].movement.rightDistance++;
     return currentPosition + 1;
   }
 };

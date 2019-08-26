@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Board from './Board';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { updateBoard, updateStats, setBot, clearCharts } from '../actions';
+import { updateBoard, updateStats, updateBotStats, setBot, clearCharts } from '../actions';
 import { Container, Row, Col } from 'react-bootstrap';
 import Title from './Title';
 import RunOptions from './RunOptions';
@@ -11,8 +11,9 @@ import GamestepsLineChart from './charts/GamestepsLineChart';
 import ActionMovementBarChart from './charts/ActionMovementBarChart';
 import TilePieChart from './charts/TilePieChart';
 import useSocket from '../hooks/useSocket';
+import SpiderChart from './charts/SpiderChart';
 
-const App = ({ updateBoard, updateStats, setBot, clearCharts, gameLost }) => {
+const App = ({ updateBoard, updateStats, updateBotStats, setBot, clearCharts, gameLost }) => {
   document.body.style.backgroundColor = '#7cacec';
   
   const [socket] = useSocket('http://localhost:5000');
@@ -58,7 +59,7 @@ const App = ({ updateBoard, updateStats, setBot, clearCharts, gameLost }) => {
   
     socket.on('bot-stats', (data) => {
       console.log(data);
-
+      updateBotStats(data);
     });
   
     socket.on('changed-bot', (bot) => {
@@ -85,7 +86,7 @@ const App = ({ updateBoard, updateStats, setBot, clearCharts, gameLost }) => {
           <Board />
         </Col>
         <Col>
-          <PlayerInformation />
+          {/* <SpiderChart /> */}
         </Col>
       </Row>
       <Row style={{marginLeft: '1px', marginRight: '1px', paddingTop: '20px', marginTop: '300px', backgroundColor: 'white', height: '430px'}}>
@@ -110,7 +111,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateBoard, updateStats, setBot, clearCharts }, dispatch);
+  return bindActionCreators({ updateBoard, updateStats, updateBotStats, setBot, clearCharts }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
