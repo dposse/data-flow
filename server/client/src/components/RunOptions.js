@@ -35,6 +35,21 @@ const StyledButton = styled(Button)`
   border: 1px solid white;
   margin-top: 5px;
   margin-right: 5px;
+
+  :hover {
+    background-color: #609beb;
+    border: 1px solid white;
+  }
+
+  :active, :focus {
+    background-color: #1f82ed !important;
+    border: 1px solid white !important;
+    box-shadow: none !important;
+  }
+
+  :focus {
+    box-shadow: none;
+  }
 `;
 
 function mapStateToProps(state) {

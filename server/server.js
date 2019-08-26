@@ -6,6 +6,7 @@ const gameConstants = require('./gameConstants');
 const RandomBotPlayer = require('./players/RandomBotPlayer');
 const MLPlayer = require('./players/MLPlayer');
 const MLPlayer2 = require('./players/MLPlayer2');
+const MLPlayer3 = require('./players/MLPlayer3');
 
 const PORT = 5000;
 let simulationRunning = false;
@@ -44,7 +45,7 @@ let playerPosition;
 let nextAction;
 let endGame;
 //initialize player to MLBot (1), but can be changed through sockets
-let player = new MLPlayer();
+let player = new MLPlayer3();
 
 const initializeGame = () => {
   board = gameConstants.INITIAL_BOARD_STATE;
@@ -101,7 +102,7 @@ const main = async () => {
 //below should be initialized in human player, leaving for now
 io.on('connection', (socket) => {  
   console.log('user connected');
-  socket.emit('changed-bot', 'machine learning bot');
+  socket.emit('changed-bot', 'machine learning bot 3');
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
@@ -217,7 +218,8 @@ const runGame = (player) => {
         updateTilePercents();
         updateMovementPercents();
         currentGameStatistics.actions.total++;
-        playerStatistics[player.getName()].steps = gamestep;
+        console.log(playerStatistics);
+        console.log(playerStatistics[player.getName()]);
         //send statistics to client
         io.sockets.emit('statistics', statistics);
       }, gameConstants.GAME_TICK);
