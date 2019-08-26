@@ -11,7 +11,8 @@ class TilePieChart extends Component {
       totalTiles: 0,
       chartOptions: {
         chart: {
-          type: 'pie'
+          type: 'pie',
+          animation: false
         },
         title: {
           text: 'Open and Closed Tiles'
@@ -29,6 +30,11 @@ class TilePieChart extends Component {
               style: {
                 color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
               }
+            }
+          },
+          series: {
+            animation: {
+              duration: 100
             }
           }
         },
@@ -56,7 +62,8 @@ class TilePieChart extends Component {
   componentDidUpdate(oldProps) {
     const newProps = this.props;
     //only update at end of games for performance
-    if (!oldProps.gameLost && newProps.gameLost) {
+    // now updating every tick as per Sean
+    if (newProps !== oldProps) {
       this.setState({
         chartOptions: {
           series: [

@@ -10,7 +10,8 @@ class ActionMovementBarChart extends Component {
     this.state = {
       chartOptions: {
         chart: {
-          type: 'column'
+          type: 'column',
+          animation: false
         },
         title: {
           text: 'Actions and Movements'
@@ -32,6 +33,11 @@ class ActionMovementBarChart extends Component {
           column: {
             pointPadding: 0.2,
             borderWidth: 0
+          },
+          series: {
+            animation: {
+              duration: 100
+            }
           }
         },
         series: [
@@ -50,8 +56,9 @@ class ActionMovementBarChart extends Component {
 
   componentDidUpdate(oldProps) {
     //only update at end of games for performance
+    // now updating every tick as per Sean
     const newProps = this.props;
-    if (!oldProps.gameLost && newProps.gameLost) {
+    if (newProps !== oldProps) {
       this.setState({
         chartOptions: {
           series: [

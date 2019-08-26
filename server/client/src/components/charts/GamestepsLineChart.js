@@ -11,6 +11,9 @@ class GamestepsLineChart extends Component {
     this.state = {
       // To avoid unnecessary update keep all options in the state.
       chartOptions: {
+        chart: {
+          animation: false
+        },
         title: {
           text: 'Steps per game'
         },
@@ -34,6 +37,11 @@ class GamestepsLineChart extends Component {
                   enabled: true
               },
               enableMouseTracking: false
+          },
+          series: {
+            animation: {
+              duration: 100
+            }
           }
         },
       },
@@ -43,7 +51,8 @@ class GamestepsLineChart extends Component {
 
   componentDidUpdate(prevProps) {
     //below updates when new game started - updating every tick too laggy
-    if (this.props.gameSteps.length !== prevProps.gameSteps.length) {
+    // now testing updating every tick as per Sean's suggestion
+    if (this.props !== prevProps) {
       this.updateSeries();
     }
   }

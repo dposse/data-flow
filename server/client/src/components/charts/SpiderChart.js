@@ -3,6 +3,8 @@ import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
 import { connect } from 'react-redux';
 
+require('highcharts/highcharts-more')(Highcharts);
+
 class SpiderChart extends Component {
   constructor(props) {
     super(props);
@@ -10,17 +12,18 @@ class SpiderChart extends Component {
     this.state = {
       chartOptions: {
         chart: {
-          polar: true
+          polar: true,
+          animation: false
         },
         title: {
           text: 'Individual Bot Performance'
         },
-        pane: {
-          size: '80%'
-        },
+        // pane: {
+        //   startAngle: 0,
+        //   endAngle: 360
+        // },
         xAxis: {
           categories: ['Steps', 'Movement right', 'Tiles Seen', 'Movement Left'],
-          tickmarkPlacement: 'on',
           lineWidth: 0
         },
         yAxis: {
@@ -29,8 +32,15 @@ class SpiderChart extends Component {
           min: 0
         },
         legend: {
-          align: 'right',
-          verticalAlign: 'middle'
+          align: 'left',
+          verticalAlign: 'top'
+        },
+        plotOptions: {
+          series: {
+            animation: {
+              duration: 100
+            }
+          }
         },
         series: [
           {

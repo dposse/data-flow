@@ -223,6 +223,7 @@ const runGame = (player) => {
         playerStatistics[player.getName()].steps = gamestep;
         //send statistics to client
         io.sockets.emit('statistics', statistics);
+        io.sockets.emit('bot-stats', playerStatistics);
       }, gameConstants.GAME_TICK);
   });
 }
