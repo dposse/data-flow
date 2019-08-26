@@ -11,6 +11,9 @@ class SpiderChart extends Component {
 
     this.state = {
       chartOptions: {
+        credits: {
+          enabled: false
+        },
         chart: {
           polar: true,
           animation: false

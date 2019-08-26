@@ -11,6 +11,9 @@ class GamestepsLineChart extends Component {
     this.state = {
       // To avoid unnecessary update keep all options in the state.
       chartOptions: {
+        credits: {
+          enabled: false
+        },
         chart: {
           animation: false
         },

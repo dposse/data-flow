@@ -10,6 +10,9 @@ class TilePieChart extends Component {
     this.state = {
       totalTiles: 0,
       chartOptions: {
+        credits: {
+          enabled: false
+        },
         chart: {
           type: 'pie',
           animation: false

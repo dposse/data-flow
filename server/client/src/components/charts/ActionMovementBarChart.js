@@ -9,6 +9,9 @@ class ActionMovementBarChart extends Component {
 
     this.state = {
       chartOptions: {
+        credits: {
+          enabled: false
+        },
         chart: {
           type: 'column',
           animation: false
