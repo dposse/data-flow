@@ -15,7 +15,7 @@ const RunOptions = ({ startSimulation, endSimulation, useRandomBot, useMLBot1, u
           end simulation
       </StyledButton>
     </ButtonToolbar>
-    Current Bot: {currentBot}
+    <small style={{color: 'white'}}>Current Bot: {currentBot}</small>
     <ButtonToolbar>
       <StyledButton size='sm' onClick={useRandomBot}>
         Use Random Bot
@@ -31,8 +31,8 @@ const RunOptions = ({ startSimulation, endSimulation, useRandomBot, useMLBot1, u
 );
 
 const StyledButton = styled(Button)`
-  background-color: rgb(124, 181, 236);
-  border: none;
+  background-color: #7cacec;
+  border: 1px solid white;
   margin-top: 5px;
   margin-right: 5px;
 `;

@@ -72,7 +72,7 @@ const App = ({ updateBoard, updateStats, setBot, clearCharts, gameLost }) => {
     <Container fluid={true}>
       <Row style={{marginTop: '20px'}}>
         <Col>
-          {/* <Title /> */}
+          <Title />
           <RunOptions 
             startSimulation={startSimulation} 
             endSimulation={endSimulation} 
@@ -88,7 +88,7 @@ const App = ({ updateBoard, updateStats, setBot, clearCharts, gameLost }) => {
           <PlayerInformation />
         </Col>
       </Row>
-      <Row style={{paddingTop: '20px', marginTop: '300px', backgroundColor: 'white', height: '450px'}}>
+      <Row style={{marginLeft: '1px', marginRight: '1px', paddingTop: '20px', marginTop: '300px', backgroundColor: 'white', height: '430px'}}>
         <Col>
           <GamestepsLineChart />
         </Col>

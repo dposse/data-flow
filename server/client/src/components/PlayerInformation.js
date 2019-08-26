@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const PlayerInformation = () => (
   <Container>
-    gotem
+    
   </Container>
 );
 

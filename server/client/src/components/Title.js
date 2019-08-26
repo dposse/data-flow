@@ -1,9 +1,9 @@
 import React from 'react';
 
 const Title = () => (
-  <p style={{color: 'white'}}>
+  <h6 style={{color: 'white'}}>
     The Machine Learning Adventures of Jojo And Junior
-  </p>
+  </h6>
 );
 
 export default Title;
