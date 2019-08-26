@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Board from './Board';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { updateBoard, updateStats, updateBotStats, setBot, clearCharts } from '../actions';
+import { updateBoard, updateStats, updateLastMove, updateBotStats, setBot, clearCharts } from '../actions';
 import { Container, Row, Col } from 'react-bootstrap';
 import Title from './Title';
 import RunOptions from './RunOptions';
@@ -13,7 +13,7 @@ import TilePieChart from './charts/TilePieChart';
 import useSocket from '../hooks/useSocket';
 import SpiderChart from './charts/SpiderChart';
 
-const App = ({ updateBoard, updateStats, updateBotStats, setBot, clearCharts, gameLost }) => {
+const App = ({ updateBoard, updateStats, updateLastMove, updateBotStats, setBot, clearCharts, gameLost }) => {
   document.body.style.backgroundColor = '#7cacec';
   
   const [socket] = useSocket('http://localhost:5000');
@@ -50,6 +50,7 @@ const App = ({ updateBoard, updateStats, updateBotStats, setBot, clearCharts, ga
   useEffect(() => {
     socket.on('state', (message) => {
       updateBoard(message);
+      updateLastMove(message.lastMove);
     });
   
     socket.on('statistics', (data) => {
@@ -111,7 +112,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateBoard, updateStats, updateBotStats, setBot, clearCharts }, dispatch);
+  return bindActionCreators({ updateBoard, updateStats, updateLastMove, updateBotStats, setBot, clearCharts }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

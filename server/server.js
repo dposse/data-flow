@@ -46,6 +46,7 @@ let currentGameStatistics;
 let board;
 let playerPosition;
 let nextAction;
+let lastMove = 'none';
 let endGame;
 
 
@@ -175,16 +176,19 @@ const runGame = (player) => {
             console.log(`next action set to left`);
             playerPosition = moveLeft(playerPosition);
             currentGameStatistics.actions.numberOfLeftInputs++;
+            lastMove = 'left';
             console.log(`new player position: ${playerPosition}`);
             break;
           case 'right':
             console.log(`next action set to right`);
             playerPosition = moveRight(playerPosition);
             currentGameStatistics.actions.numberOfRightInputs++;
+            lastMove = 'right';
             console.log(`new player position: ${playerPosition}`);
             break;
           case 'none':
           default:
+            lastMove = 'none';
             console.log(`no player movement`);
             break;
         }
@@ -197,7 +201,7 @@ const runGame = (player) => {
           clearInterval(endGame);
           console.log(`collision, game lost`);
           //send board and player state to client with endgame response
-          io.sockets.emit('state', { board, playerPosition, lost: true });
+          io.sockets.emit('state', { board, playerPosition, lost: true, lastMove: lastMove });
           //update and send statistics
           io.sockets.emit('statistics', statistics);
           io.sockets.emit('bot-stats', playerStatistics);
@@ -207,7 +211,8 @@ const runGame = (player) => {
         }
     
         //send state to client
-        io.sockets.emit('state', { board, playerPosition, lost: false });
+        console.log(lastMove);
+        io.sockets.emit('state', { board, playerPosition, lost: false, lastMove: lastMove });
 
         //update state of player, i.e. player.updateGameState()
         player.updateGameState(board, playerPosition);

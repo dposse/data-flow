@@ -1,5 +1,6 @@
 export const UPDATE = 'update';
 export const UPDATE_STATS = 'update_stats';
+export const UPDATE_LAST_MOVE = 'update_last_move';
 export const UPDATE_BOT_STATS = 'update_bot_stats';
 export const SET_BOT = 'set_bot';
 export const CLEAR_CHARTS = 'clear_charts';
@@ -17,6 +18,13 @@ export function updateStats(newStats) {
     payload: newStats
   }
 };
+
+export function updateLastMove(move) {
+  return {
+    type: UPDATE_LAST_MOVE,
+    payload: move
+  }
+}
 
 export function updateBotStats(botStats) {
   return {
