@@ -1,0 +1,9 @@
+{
+  "name": "mladventures",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "node server.js",
+    "heroku-postbuild": "cd server && npm install && cd client && npm install && npm run build"
+  }
+}
