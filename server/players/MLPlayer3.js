@@ -13,7 +13,11 @@ class MLPlayer3 {
   async initialize() {
     return new Promise(async (resolve, reject) => {
       //load model from files
-      this.model = await tf.loadLayersModel('file://tensorflow_models/nexttworowssize10-onenodeoutput.json');
+      this.model = await tf.loadLayersModel(
+        (process.env.NODE_ENV === 'production') 
+          ? 'file://server/tensorflow_models/nexttworowssize10-onenodeoutput.json'
+          : 'file://tensorflow_models/nexttworowssize10-onenodeoutput.json'
+      );
       console.log(`loaded model: `, this.model);
       this.nextAction = 'none';
       this.modelName = 'mlBot3';
