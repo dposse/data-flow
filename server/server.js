@@ -1,14 +1,41 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
+const bodyParser = require('body-parser');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const gameConstants = require('./gameConstants');
 const RandomBotPlayer = require('./players/RandomBotPlayer');
 const MLPlayer = require('./players/MLPlayer');
 const MLPlayer2 = require('./players/MLPlayer2');
-const MLPlayer3 = require('./players/MLPlayer3');
 
-const PORT = 5000;
+// need to send built react spa to browser on first load
+// usual cors and bodyparser just in case
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+if (process.env.NODE_ENV === 'production') {
+  // Express will serve up production assets
+  // like our main.js file, or main.css file!
+  app.use(express.static('server/client/build'));
+
+  // Express will serve up the index.html file
+  // if it doesn't recognize the route
+  const path = require('path');
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'server/client', 'build', 'index.html'));
+  });
+}
+
+
+
+
+
+//////////////////////////////////////////////////////////////////
+// below is simulation
+
+const PORT = process.env.PORT || 5000;
 let simulationRunning = false;
 
 //initialize player to MLBot (1), but can be changed through sockets
@@ -338,5 +365,4 @@ const updateInputPercentages = () => {
 const updateMovementPercents = () => {
   currentGameStatistics.movement.percentLeftMovement = currentGameStatistics.movement.leftDistance / currentGameStatistics.movement.total;
   currentGameStatistics.movement.percentRightMovement = currentGameStatistics.movement.rightDistance / currentGameStatistics.movement.total;
-
 };

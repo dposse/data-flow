@@ -19,7 +19,9 @@ import SpiderChart from './charts/SpiderChart';
 const App = ({ updateBoard, updateStats, updateLastMove, updateBotStats, setBot, clearCharts, gameLost }) => {
   document.body.style.backgroundColor = '#7cacec';
   
-  const [socket] = useSocket('http://localhost:5000');
+  const [socket] = useSocket(
+    (process.env.NODE_ENV === 'production') ? process.env.PORT : 'http://localhost:5000'
+  );
 
   socket.connect();
 

@@ -1,0 +1,13 @@
+{
+  "name": "mladventures",
+  "version": "1.0.0",
+  "description": "",
+  "engines": {
+    "node": "12.6.0",
+    "npm": "6.10.1"
+  },
+  "scripts": {
+    "start": "node server/server.js",
+    "heroku-postbuild": "cd server && npm install && cd client && npm install && npm run build"
+  }
+}
