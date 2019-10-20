@@ -13,7 +13,11 @@ class MLPlayer {
   async initialize() {
     return new Promise(async (resolve, reject) => {
       //load model from files
-      this.model = await tf.loadLayersModel('file://tensorflow_models/mladventures-v0.json');
+      this.model = await tf.loadLayersModel(
+        (process.env.NODE_ENV === 'production') 
+          ? 'file://server/tensorflow_models/mladventures-v0.json'
+          : 'file://tensorflow_models/mladventures-v0.json'
+      );
       console.log(`loaded model: `, this.model);
       this.nextAction = 'none';
       this.modelName = 'mlBot1';
